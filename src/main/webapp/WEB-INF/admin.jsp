@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-    <p>testing testing</p>
+    <a href="main-servlet">Return to Homepage</a>
 
     <table>
         <tr>

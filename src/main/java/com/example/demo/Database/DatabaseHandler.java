@@ -85,5 +85,5 @@ public abstract class DatabaseHandler {
     // -- Intended for override
     protected abstract void castToObjectDB(HashMap<Integer, String[]> currentDB);
 
-    protected abstract void castToRawDB(HashMap<String, Account> currentDB);
+    //protected abstract void castToRawDB(HashMap<String, Object> currentDB);
 }

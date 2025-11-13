@@ -1,18 +1,20 @@
 package com.example.demo;
 
+import com.example.demo.Database.Reservation;
 import com.example.demo.Database.Table;
 import com.example.demo.Database.DatabaseHandler;
 
 import java.util.HashMap;
 
-public class TableManager {
+public class TableManager extends DatabaseHandler {
     private static final String DB_FILE = "dbTables";
 
     private HashMap<Integer, String[]> rawDB = new HashMap<>();
     private HashMap<Integer, Table> TablesDB = new HashMap<>();
     private int CUR_TOP_NUM = 0;
 
-    private void castToObjectDB(HashMap<Integer, String[]> currentDB) {
+    @Override
+    protected void castToObjectDB(HashMap<Integer, String[]> currentDB) {
         for (int item_num : currentDB.keySet()) {
             Table item = new Table(item_num, currentDB.get(item_num));
             TablesDB.put(item_num, item);
@@ -20,51 +22,54 @@ public class TableManager {
         }
     }
 
+    // not override, but required
+    protected void castToRawDB(HashMap<Integer, Table> currentDB) {
+        rawDB.clear();
+        CUR_TOP_NUM = 0;
+
+        for (Table cur_tb : currentDB.values()) {
+            String[] data = new String[4];
+            data[0] = String.valueOf(cur_tb.getCap());
+            data[1] = String.valueOf(cur_tb.getPrice());
+            data[2] = cur_tb.getLocation();
+            data[3] = String.valueOf(cur_tb.checkReservation());
+
+            rawDB.put(cur_tb.getNumber(), data);
+            CUR_TOP_NUM++;
+        }
+    }
+
     public TableManager() {
-        DatabaseHandler.csvLoader(DB_FILE, rawDB);
+        csvLoader(DB_FILE, rawDB);
         castToObjectDB(rawDB);
     }
 
-    public void addAccount(String[] data) {
-        //Account acc = new Account(CUR_TOP_NUM, data);
-        //AccountsDB.put(CUR_TOP_NUM, acc);
-        rawDB.put(CUR_TOP_NUM, data);
-        DatabaseHandler.csvWriter(DB_FILE, rawDB);
+    public void addTable(int tb_num, String[] data) {
+        Table tb = new Table(tb_num, data);
+        TablesDB.put(tb_num, tb);
+        CUR_TOP_NUM++;
     }
-    public void editAccount(int acc_num, String[] data) {
-        String[] new_data = rawDB.get(acc_num);
-        for (int i = 0; i < data.length; i++) {
-            if (!data[i].isEmpty()) {
-                new_data[i] = data[i];
-            }
-        }
-        rawDB.put(acc_num, new_data);
-        DatabaseHandler.csvWriter(DB_FILE, rawDB);
-        /*
-        int cur_ID = 0;
-        String usern = data[0];
-        String[] old_data;
-        for (int i : rawDB.keySet()) {
-            if (rawDB.get(i)[0].equals(usern)) {
-                old_data = rawDB.get(i);
-                cur_ID = i;
-            }
-        }
-        String[] new_data = data.clone();
-        for (int i = 0; i < data.length; i++) {
-            if (!data[i].equals("")) {
-                new_data[i] = data[i+1];
-            }
-        }
-        rawDB.replace(cur_ID, new_data);
-         */
+    public void editTable(int tb_num, String[] data) {
+        Table cur_tb = TablesDB.get(tb_num);
+        if (!data[0].isEmpty()) { cur_tb.setCap(Integer.parseInt(data[0])); }
+        if (!data[1].isEmpty()) { cur_tb.setPrice(Integer.parseInt(data[1])); }
+        if (!data[2].isEmpty()) { cur_tb.setLocation(data[2]); }
+        if (!data[3].isEmpty()) { cur_tb.setReservation(Boolean.parseBoolean(data[3])); }
+        TablesDB.replace(tb_num, cur_tb);
     }
-    public void deleteAccount(int acc_num) {
-        rawDB.remove(acc_num);
-        DatabaseHandler.csvWriter(DB_FILE, rawDB);
+    public void deleteTable(int tb_num) {
+        TablesDB.remove(tb_num);
+        CUR_TOP_NUM--;
     }
 
     public HashMap<Integer, String[]> getTables() {
         return rawDB;
+    }
+
+    public boolean checkReserved(int table_num) {
+        return TablesDB.get(table_num).checkReservation();
+    }
+    public void updateReserved(int table_num, boolean reserved) {
+        TablesDB.get(table_num).setReservation(reserved);
     }
 }

@@ -19,7 +19,7 @@ public class AccountManager extends DatabaseHandler {
         }
     }
 
-    @Override
+    // not override, but required
     protected void castToRawDB(HashMap<String, Account> currentDB) {
         rawDB.clear();
         CUR_TOP_NUM = 0;
