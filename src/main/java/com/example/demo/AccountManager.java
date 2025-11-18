@@ -6,8 +6,8 @@ import java.util.HashMap;
 public class AccountManager extends DatabaseHandler {
     private static final String DB_FILE = "dbAccounts";
 
-    private HashMap<Integer, String[]> rawDB = new HashMap<>();
-    private HashMap<String, Account> AccountsDB = new HashMap<>();
+    private static HashMap<Integer, String[]> rawDB = new HashMap<>();
+    private static HashMap<String, Account> AccountsDB = new HashMap<>();
     private int CUR_TOP_NUM = 0;
 
     @Override

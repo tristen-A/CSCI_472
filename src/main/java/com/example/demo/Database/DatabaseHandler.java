@@ -28,16 +28,16 @@ public abstract class DatabaseHandler {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
             String line;
-            int cur_num = 0;
+            //int cur_num = 0;
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(", ");
                 String[] item_data = new String[data.length-1];
                 for (int i=0; i<data.length-1; i++) {
                     item_data[i] = data[i+1];
                 }
-                targetDB.put(cur_num, item_data);
+                targetDB.put(Integer.parseInt(data[0]), item_data);
 
-                cur_num++;
+                //cur_num++;
             }
         } catch (IOException e) {
             //System.out.println("Indicated filepath: " + filepath + " not found.");

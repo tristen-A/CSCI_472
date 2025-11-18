@@ -7,11 +7,27 @@
 <head>
     <title>Reservations</title>
     <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .container {
+          display: grid;
+          grid-template-columns: auto auto auto auto auto;
+          background-color: dodgerblue;
+          padding: 10px;
+        }
+        .container div {
+          background-color: #f1f1f1;
+          border: 1px solid black;
+          padding: 5px;
+          font-size: 30px;
+          text-align: center;
+        }
+    </style>
 </head>
 <body>
     <a href="main-servlet">Return to Homepage</a>
     <br/>
-    <!--<p>Current Directory: ${current_directory} </p>-->
+    <p>Current Directory: ${current_directory} </p>
 
     <p>Resturaunt Tables</p>
     <table>
@@ -22,13 +38,13 @@
             <th>Location</th>
             <th>Reserved</th>
         </tr>
-        <c:forEach items="${tables.keySet()}" var="i">
+        <c:forEach items="${tables.values()}" var="cur_tbl">
             <tr>
-                <td>${i}</td>
-                <td>${tables.get(i)[0]}</td>
-                <td>${tables.get(i)[1]}</td>
-                <td>${tables.get(i)[2]}</td>
-                <td>${tables.get(i)[3]}</td>
+                <td>${cur_tbl.getNumber()}</td>
+                <td>${cur_tbl.getCap()}</td>
+                <td>${cur_tbl.getPrice()}</td>
+                <td>${cur_tbl.getLocation()}</td>
+                <td>${cur_tbl.checkReservation()}</td>
             </tr>
         </c:forEach>
     </table>
@@ -65,6 +81,20 @@
             </tr>
         </c:forEach>
     </table>
+
+    <p>Number of tables: ${numberOfTables}</p>
+
+    <div class="container">
+        <c:forEach items="${tables.keySet()}" var="i">
+            <div>
+                <p>Table Number: ${i}</p>
+                <p>${tables.get(i).getLocation()}</p>
+                <button id="tblBtn" style="margin-top:20px; padding:10px 20px; font-size:16px; cursor:pointer;">
+                    Image
+                </button>
+            </div>
+        </c:forEach>
+    </div>
 
     <p> ${error} </p>
 </body>

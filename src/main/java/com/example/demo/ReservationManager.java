@@ -11,8 +11,8 @@ public class ReservationManager extends DatabaseHandler {
 
     private TableManager TableManager;
 
-    private HashMap<Integer, String[]> rawDB = new HashMap<>();
-    private HashMap<Integer, Reservation> ReservDB = new HashMap<>();
+    private static HashMap<Integer, String[]> rawDB = new HashMap<>();
+    private static HashMap<Integer, Reservation> ReservDB = new HashMap<>();
     private int CUR_TOP_NUM = 0;
 
     @Override

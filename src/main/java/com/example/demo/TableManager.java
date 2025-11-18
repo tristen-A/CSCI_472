@@ -9,8 +9,8 @@ import java.util.HashMap;
 public class TableManager extends DatabaseHandler {
     private static final String DB_FILE = "dbTables";
 
-    private HashMap<Integer, String[]> rawDB = new HashMap<>();
-    private HashMap<Integer, Table> TablesDB = new HashMap<>();
+    private static HashMap<Integer, String[]> rawDB = new HashMap<>();
+    private static HashMap<Integer, Table> TablesDB = new HashMap<>();
     private int CUR_TOP_NUM = 0;
 
     @Override
@@ -62,8 +62,8 @@ public class TableManager extends DatabaseHandler {
         CUR_TOP_NUM--;
     }
 
-    public HashMap<Integer, String[]> getTables() {
-        return rawDB;
+    public HashMap<Integer, Table> getTables() {
+        return TablesDB;
     }
 
     public boolean checkReserved(int table_num) {

@@ -65,5 +65,6 @@ public class ReservationServlet extends HttpServlet {
     protected void updatePage(HttpServletRequest request) {
         request.setAttribute("tables", TableManager.getTables());
         request.setAttribute("reservations", ReservationManager.getReservations());
+        request.setAttribute("current_directory", System.getProperty("user.dir"));
     }
 }
