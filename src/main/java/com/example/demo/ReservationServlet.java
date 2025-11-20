@@ -1,15 +1,13 @@
 package com.example.demo;
 
-import com.example.demo.Database.DatabaseHandler;
+import com.example.demo.Core.ReservationManager;
+import com.example.demo.Core.TableManager;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-
-import com.example.demo.Database.*;
 
 @WebServlet(name = "reservationServlet", value = "/reservation")
 public class ReservationServlet extends HttpServlet {

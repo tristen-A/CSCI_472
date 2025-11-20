@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Core;
 
 import com.example.demo.Database.*;
 import java.util.HashMap;

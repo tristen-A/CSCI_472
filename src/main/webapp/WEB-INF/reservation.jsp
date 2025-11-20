@@ -89,9 +89,10 @@
             <div>
                 <p>Table Number: ${i}</p>
                 <p>${tables.get(i).getLocation()}</p>
-                <button id="tblBtn" style="margin-top:20px; padding:10px 20px; font-size:16px; cursor:pointer;">
+                <!--<button id="tblBtn" src="../Assets/Reservation_Page_Icon.png" style="margin-top:20px; padding:10px 20px; font-size:16px; cursor:pointer;">
                     Image
-                </button>
+                </button>-->
+                <input type="image" src="../Assets/Reservation_Page_Icon.png" />
             </div>
         </c:forEach>
     </div>

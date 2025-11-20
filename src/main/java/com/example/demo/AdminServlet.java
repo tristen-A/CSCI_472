@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Core.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,14 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-
-import com.example.demo.Database.*;
 
 @WebServlet(name = "adminServlet", value = "/admin")
 public class AdminServlet extends HttpServlet {
     private final AccountManager AccManager = new  AccountManager();
+    private final TableManager TableManager = new  TableManager();
 
     @Override
     public void init() {}
@@ -66,5 +64,6 @@ public class AdminServlet extends HttpServlet {
 
     protected void updatePage(HttpServletRequest request) {
         request.setAttribute("accounts", AccManager.getAccounts());
+        request.setAttribute("tables", TableManager.getTables());
     }
 }

@@ -1,6 +1,5 @@
-package com.example.demo;
+package com.example.demo.Core;
 
-import com.example.demo.Database.Reservation;
 import com.example.demo.Database.Table;
 import com.example.demo.Database.DatabaseHandler;
 
