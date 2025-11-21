@@ -11,6 +11,7 @@
         <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}</h1>
 
         <a href="login">Login Here</a>
+        <a href="profile">Profile</a>
 
         <p>Navigate to one of these three pages to get started;</p>
         <a href="reservation">

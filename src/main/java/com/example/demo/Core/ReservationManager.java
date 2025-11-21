@@ -2,8 +2,10 @@ package com.example.demo.Core;
 
 import com.example.demo.Database.DatabaseHandler;
 import com.example.demo.Database.Reservation;
+import com.example.demo.Database.Account;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ReservationManager extends DatabaseHandler {
     private static final String DB_FILE = "dbReservations";
@@ -67,6 +69,18 @@ public class ReservationManager extends DatabaseHandler {
 
     public HashMap<Integer, Reservation> getReservations() {
         return ReservDB;
+    }
+
+    public HashMap<Integer, Reservation> getAccReservations(Account acc) {
+        HashMap<Integer, Reservation> return_db = new HashMap<>();
+
+        for (Reservation cur_res : ReservDB.values()) {
+            if ( cur_res.getAccUsern().equals(acc.getUsername()) ) {
+                return_db.put(cur_res.getResNum(), cur_res);
+            }
+        }
+
+        return return_db;
     }
 
     public void updateDB() {

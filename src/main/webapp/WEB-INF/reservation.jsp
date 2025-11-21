@@ -87,14 +87,28 @@
     <div class="container">
         <c:forEach items="${tables.keySet()}" var="i">
             <div>
-                <p>Table Number: ${i}</p>
-                <p>${tables.get(i).getLocation()}</p>
-                <!--<button id="tblBtn" src="../Assets/Reservation_Page_Icon.png" style="margin-top:20px; padding:10px 20px; font-size:16px; cursor:pointer;">
-                    Image
-                </button>-->
-                <input type="image" src="../Assets/Reservation_Page_Icon.png" />
+                <form method="post">
+                    <input type="hidden" name="table_num" value="${i}" /><br/>
+                    <input id="btn_img${i}" type="image" src="" alt="Submit" width="64" height="64">
+                </form>
+                <p style="font-size: 16px;" >Table Number: ${i}</p>
+                <p style="font-size: 16px;" >${tables.get(i).getLocation()}</p>
             </div>
         </c:forEach>
+
+        <script>
+            function load_table_icons() {
+                const images = ["Assets/Available_Table_Icon.png", "Assets/Reserved_Table_Icon.png"];
+                for (let i = 1; i < 6; i++) {
+                    const imageElement = document.getElementById("btn_img" + i);
+                    imageElement.src = images[0];
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                load_table_icons();
+            });
+        </script>
     </div>
 
     <p> ${error} </p>
