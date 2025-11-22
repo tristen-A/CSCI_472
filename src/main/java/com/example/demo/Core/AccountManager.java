@@ -82,10 +82,10 @@ public class AccountManager extends DatabaseHandler {
         CUR_TOP_NUM--;
     }
 
-    private String[] getAccountData(String usern) {
-        for (String[] data : rawDB.values()) {
-            if (data[0].equals(usern)) {
-                return data;
+    public Account getAccount(String usern) {
+        for (Account acc : AccountsDB.values()) {
+            if (acc.getUsername().equals(usern)) {
+                return acc;
             }
         }
         return null;

@@ -71,11 +71,11 @@ public class ReservationManager extends DatabaseHandler {
         return ReservDB;
     }
 
-    public HashMap<Integer, Reservation> getAccReservations(Account acc) {
+    public HashMap<Integer, Reservation> getAccReservations(String usern) {
         HashMap<Integer, Reservation> return_db = new HashMap<>();
 
         for (Reservation cur_res : ReservDB.values()) {
-            if ( cur_res.getAccUsern().equals(acc.getUsername()) ) {
+            if ( cur_res.getAccUsern().equals(usern) ) {
                 return_db.put(cur_res.getResNum(), cur_res);
             }
         }

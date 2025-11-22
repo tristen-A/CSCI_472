@@ -64,5 +64,25 @@
           <button type="submit" class="btn btn-primary">Sign in</button>
         </form>
     </div>
+
+    <div class="list-group mx-auto pt-2" style="width: 600px;">
+        <c:forEach items="${acc_reservations.values()}" var="cur_res">
+            <a href="#" class="list-group-item list-group-item-action" >
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Table #${cur_res.getTableNum()}</h5>
+                    <small>${cur_res.getDate()}</small>
+                    <small>${cur_res.getTime()}</small>
+                </div>
+                <p class="mb-1"> -- Party of (5)</p>
+                <form method="post">
+                    <input type="hidden" name="res_num" value="${cur_res.getResNum()}" />
+                    <button type="submit" class="btn btn-outline-danger btn-sm"
+                        name="submit_type" value="Cancel Reservation" >
+                        Cancel Reservation
+                    </button>
+                </form>
+            </a>
+        </c:forEach>
+    </div>
 </body>
 </html>
