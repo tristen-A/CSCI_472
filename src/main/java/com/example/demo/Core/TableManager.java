@@ -71,4 +71,9 @@ public class TableManager extends DatabaseHandler {
     public void updateReserved(int table_num, boolean reserved) {
         TablesDB.get(table_num).setReservation(reserved);
     }
+
+    public void updateDB() {
+        castToRawDB(TablesDB);
+        csvWriter(DB_FILE, rawDB);
+    }
 }

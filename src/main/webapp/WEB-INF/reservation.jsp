@@ -6,7 +6,8 @@
 <html>
 <head>
     <title>Reservations</title>
-    <link rel="stylesheet" href="../style.css">
+    <!--<link rel="stylesheet" href="../style.css">-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <style>
         .container {
@@ -82,15 +83,33 @@
         </c:forEach>
     </table>
 
-    <p>Number of tables: ${numberOfTables}</p>
+    <div class="modal fade" id="tableConfirm" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container">
         <c:forEach items="${tables.keySet()}" var="i">
             <div>
-                <form method="post">
+                <!--<form method="post">
                     <input type="hidden" name="table_num" value="${i}" /><br/>
                     <input id="btn_img${i}" type="image" src="" alt="Submit" width="64" height="64">
-                </form>
+                </form>-->
+                <a id="btn${i}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tableConfirm">
+                    <img class="img-fluid" id="btn_img${i}" src="" width="64" height="64"/>
+                </a>
                 <p style="font-size: 16px;" >Table Number: ${i}</p>
                 <p style="font-size: 16px;" >${tables.get(i).getLocation()}</p>
             </div>
