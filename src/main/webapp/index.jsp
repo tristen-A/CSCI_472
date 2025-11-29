@@ -11,8 +11,15 @@
 
         <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}</h1>
 
-        <a href="login">Login Here</a>
-        <a href="profile">Profile</a>
+        <a href="login" class="button">Login Here</a>
+        <a href="profile" class="button">Profile</a>
+
+        <!--<form method="post">
+            <input type="submit" name="page_request" value="Login" />
+        </form>
+        <form method="post">
+            <input type="submit" name="page_request" value="Profile" />
+        </form>-->
 
         <p>Navigate to one of these three pages to get started;</p>
         <a href="reservation">
@@ -23,12 +30,7 @@
             <img id="admin-icon" src="Assets/Admin_Page_Icon.png" alt="Admin Page" style="width:42px;height:42px;">
         </a>
         <label for="admin-icon">Administrator Portal</label><br>
-        <!--
-        <form action="hello-servlet" method="post">
-            <input type="text" name="username" required /><br/>
-            <input type="password" name="password" required /><br/>
-            <input type="submit" value="Login" />
-        </form>
-        -->
+
+        <p>${error}</p>
     </body>
 </html>

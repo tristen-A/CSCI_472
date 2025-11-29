@@ -19,4 +19,26 @@ public class MainServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String page_request = request.getParameter("page_request");
+
+        if (page_request.equals("Profile")) {
+            if (request.getSession().getAttribute("username") == null) {
+                response.sendRedirect("/WEB-INF/profile");
+                return;
+            } else {
+                request.setAttribute("error", "Fargunk");
+            }
+        } else if (page_request.equals("Login")) {
+            response.sendRedirect("/WEB-INF/login");
+            return;
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        dispatcher.forward(request, response);
+    }
 }
