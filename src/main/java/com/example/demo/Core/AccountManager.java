@@ -1,6 +1,10 @@
 package com.example.demo.Core;
 
 import com.example.demo.Database.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class AccountManager extends DatabaseHandler {
@@ -41,45 +45,50 @@ public class AccountManager extends DatabaseHandler {
         castToObjectDB(rawDB);
     }
 
-    public void addAccount(String[] data) {
+    public String addAccount(String[] data) {
+        if (!verifyUniqueUsername(data[0])) {
+            return ("Account username '" + data[0] + "' already exists.");
+        }
+        if (!verifyUniquePassword(data[1])) {
+            return ("Account password '" + data[1] + "' is already in use.");
+        }
+
         Account acc = new Account(data);
         AccountsDB.put(data[0], acc);
         //rawDB.put(CUR_TOP_NUM, data);
         //csvWriter(DB_FILE, rawDB);
         CUR_TOP_NUM++;
+
+        return "";
     }
-    public void editAccount(String usern, String[] data) {
+    public String editAccount(String usern, String[] data) {
+        if (verifyUniqueUsername(usern)) {
+            return ("No account found under username '" + usern + "'.");
+        }
+        if (!verifyUniquePassword(data[1])) {
+            return ("Account password '" + data[1] + "' is already in use.");
+        }
+
         Account cur_acc = AccountsDB.get(usern);
-        if (!data[0].isEmpty()) { cur_acc.setUsername(data[0]); }
+        //if (!data[0].isEmpty()) { cur_acc.setUsername(data[0]); }
         if (!data[1].isEmpty()) { cur_acc.setPassword(data[1]); }
         if (!data[2].isEmpty()) { cur_acc.setName(data[2]); }
         if (!data[3].isEmpty()) { cur_acc.setAuth(Integer.parseInt(data[3])); }
-        AccountsDB.replace(usern, cur_acc);
-        //csvWriter(DB_FILE, rawDB);
-        /*
-        int cur_ID = 0;
-        String usern = data[0];
-        String[] old_data;
-        for (int i : rawDB.keySet()) {
-            if (rawDB.get(i)[0].equals(usern)) {
-                old_data = rawDB.get(i);
-                cur_ID = i;
-            }
-        }
-        String[] new_data = data.clone();
-        for (int i = 0; i < data.length; i++) {
-            if (!data[i].equals("")) {
-                new_data[i] = data[i+1];
-            }
-        }
-        rawDB.replace(cur_ID, new_data);
-         */
+        //AccountsDB.replace(usern, cur_acc);
+
+        return "";
     }
-    public void deleteAccount(String usern) {
+    public String deleteAccount(String usern) {
+        if (verifyUniqueUsername(usern)) {
+            return ("No account found under username '" + usern + "'.");
+        }
+
         //rawDB.remove(acc_num);
         //csvWriter(DB_FILE, rawDB);
         AccountsDB.remove(usern);
         CUR_TOP_NUM--;
+
+        return "";
     }
 
     public Account getAccount(String usern) {
@@ -99,6 +108,21 @@ public class AccountManager extends DatabaseHandler {
         }
         return false;
     }
+
+    // --- Error checking methods ------------------------------------------------------
+    public boolean verifyUniqueUsername(String username) {
+        return (AccountsDB.get(username) == null);
+    }
+
+    public boolean verifyUniquePassword(String password) {
+        for (Account cur_acc : AccountsDB.values()) {
+            if (cur_acc.getPassword().equals(password)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    //----------------------------------------------------------------------------------
 
     public HashMap<String, Account> getAccounts() {
         return AccountsDB;

@@ -6,13 +6,15 @@ public class Reservation {
     private int table_num;
     private String date;
     private String time;
+    private int party_size;
 
-    public Reservation(int res_num, String acc_usern, int table_num, String date, String time) {
+    public Reservation(int res_num, String acc_usern, int table_num, String date, String time, int party_size) {
         this.res_num = res_num;
         this.acc_usern = acc_usern;
         this.table_num = table_num;
         this.date = date;
         this.time = time;
+        this.party_size = party_size;
     }
     public Reservation(int res_num, String[] data) {
         this.res_num = res_num;
@@ -20,6 +22,7 @@ public class Reservation {
         this.table_num = Integer.parseInt(data[1]);
         this.date = data[2];
         this.time = data[3];
+        this.party_size = Integer.parseInt(data[4]);
     }
 
     //Getters for Reservation info.
@@ -38,6 +41,7 @@ public class Reservation {
     public String getTime() {
         return time;
     }
+    public int getPartySize() {return party_size;}
 
     //Setters for Reservation info.
     public void setResNum(int res_num) {
@@ -55,4 +59,5 @@ public class Reservation {
     public void setTime(String time) {
         this.time = time;
     }
+    public void setPartySize(int party_size) {this.party_size = party_size;}
 }

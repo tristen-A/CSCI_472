@@ -34,6 +34,9 @@ public class AdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 
+        //Clearing any existing errors.
+        request.setAttribute("error", "");
+
         String editing_page = request.getParameter("editing_page");
 
         if (editing_page.equals("accounts")) {
@@ -47,13 +50,16 @@ public class AdminServlet extends HttpServlet {
             String submit_type = request.getParameter("submit_type");
             switch (submit_type) {
                 case "Add Account":
-                    AccManager.addAccount(data);
+                    //AccManager.addAccount(data);
+                    request.setAttribute("error", AccManager.addAccount(data));
                     break;
                 case "Edit Account":
-                    AccManager.editAccount(data[0], data);
+                    //AccManager.editAccount(data[0], data);
+                    request.setAttribute("error", AccManager.editAccount(data[0], data));
                     break;
                 case "Delete Account":
-                    AccManager.deleteAccount(data[0]);
+                    //AccManager.deleteAccount(data[0]);
+                    request.setAttribute("error", AccManager.deleteAccount(data[0]));
                     break;
                 case "Save Changes":
                     AccManager.updateDB();
@@ -70,36 +76,55 @@ public class AdminServlet extends HttpServlet {
             String submit_type = request.getParameter("submit_type");
             switch (submit_type) {
                 case "Add Table":
-                    TableManager.addTable(number, data);
+                    //TableManager.addTable(number, data);
+                    request.setAttribute("error", TableManager.addTable(number, data));
                     break;
                 case "Edit Table":
-                    TableManager.editTable(number, data);
+                    //TableManager.editTable(number, data);
+                    request.setAttribute("error", TableManager.editTable(number, data));
                     break;
                 case "Delete Table":
-                    TableManager.deleteTable(number);
+                    //TableManager.deleteTable(number);
+                    request.setAttribute("error", TableManager.deleteTable(number));
                     break;
                 case "Save Changes":
                     TableManager.updateDB();
                     break;
             }
         } else if (editing_page.equals("reservations")) {
-            int res_number = Integer.parseInt(request.getParameter("res_number"));
+            int res_number = 0;
+            if (!request.getParameter("res_number").isEmpty()) {
+                res_number = Integer.parseInt(request.getParameter("res_number"));
+            }
             String table_number = String.valueOf(request.getParameter("table_number"));
             String date = request.getParameter("date");
             String time = request.getParameter("time");
+            String party_size = request.getParameter("party_size");
 
-            String[] data = {"", table_number, date, time};
-
+            String[] data = {"", table_number, date, time, party_size};
             String submit_type = request.getParameter("submit_type");
             switch (submit_type) {
                 case "Edit Reservation":
+                    /*if (ReservationManager.verifyResNum(res_number)) {
+                        request.setAttribute("error", "Given reservtaion #" + res_number + "does not exist.");
+                        break;
+                    }
                     ReservationManager.editReservation(res_number, data);
+                    break;*/
+                    request.setAttribute("error", ReservationManager.editReservation(res_number, data));
                     break;
                 case "Delete Reservation":
+                    /*if (ReservationManager.verifyResNum(res_number)) {
+                        request.setAttribute("error", "Given reservtaion #" + res_number + "does not exist.");
+                        break;
+                    }
                     ReservationManager.deleteReservation(res_number);
+                    break;*/
+                    request.setAttribute("error", ReservationManager.deleteReservation(res_number));
                     break;
                 case "Save Changes":
                     ReservationManager.updateDB();
+                    TableManager.updateDB();
                     break;
             }
         }
@@ -114,5 +139,6 @@ public class AdminServlet extends HttpServlet {
         request.setAttribute("accounts", AccManager.getAccounts());
         request.setAttribute("tables", TableManager.getTables());
         request.setAttribute("reservations", ReservationManager.getReservations());
+        //request.setAttribute("raw_reservations", ReservationManager.getRawDB());
     }
 }

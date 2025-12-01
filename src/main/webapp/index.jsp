@@ -9,7 +9,7 @@
     <body>
         <h1><%= "Reservation Service - Portal" %></h1>
 
-        <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}</h1>
+        <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}  </h1>
 
         <a href="login" class="button">Login Here</a>
         <a href="profile" class="button">Profile</a>

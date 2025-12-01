@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <div class="mx-auto pt-2" style="width: 1000px;">
+    <!--<div class="mx-auto pt-2" style="width: 1000px;">
         <form>
           <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
@@ -63,7 +63,10 @@
           </div>
           <button type="submit" class="btn btn-primary">Sign in</button>
         </form>
-    </div>
+    </div>-->
+
+    <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}  </h1>
+    <a href="main-servlet" class="button">Return to Homepage</a>
 
     <div class="list-group mx-auto pt-2" style="width: 600px;">
         <c:forEach items="${acc_reservations.values()}" var="cur_res">
@@ -73,7 +76,7 @@
                     <small>${cur_res.getDate()}</small>
                     <small>${cur_res.getTime()}</small>
                 </div>
-                <p class="mb-1"> -- Party of (5)</p>
+                <p class="mb-1"> -- Party: ${cur_res.getPartySize()}</p>
                 <form method="post">
                     <input type="hidden" name="res_num" value="${cur_res.getResNum()}" />
                     <button type="submit" class="btn btn-outline-danger btn-sm"

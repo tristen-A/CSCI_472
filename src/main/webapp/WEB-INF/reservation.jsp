@@ -20,15 +20,13 @@
           background-color: #f1f1f1;
           border: 1px solid black;
           padding: 5px;
-          font-size: 30px;
           text-align: center;
         }
     </style>
 </head>
 <body>
-    <a href="main-servlet">Return to Homepage</a>
-    <br/>
-    <p>Current Directory: ${current_directory} </p>
+    <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}  </h1>
+    <a href="main-servlet" class="button">Return to Homepage</a>
 
     <p>Resturaunt Tables</p>
     <!--<table>
@@ -83,67 +81,38 @@
                     <img class="img-fluid" id="btn_img${i}" src="" width="64" height="64"/>
                 </button>
                 <p style="font-size: 16px;" >Table Number: ${i}</p>
+                <p style="font-size: 16px;" >Seating: ${tables.get(i).getCap()}</p>
                 <p style="font-size: 16px;" >${tables.get(i).getLocation()}</p>
 
                 <div id="table_selection_${i}" style="display: none" data-reserved="${tables.get(i).checkReservation()}">
-                    <p style="font-size: 32px;" >Reserve table?</p>
+                    <p style="font-size: 24px;" >Reserve table?</p>
 
-                    <form method="post">
+                    <form method="post" style="height: 10%; ">
                         <input type="hidden" name="acc_usern" value="${sessionScope.username}" /><br/>
                         <input type="hidden" name="table_num" value="${i}" /><br/>
-                        <input type="date" name="date" required /><br/>
-                        <input type="time" value="time" required /><br/>
+
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required /><br/
+
+                        <label for="time">Time</label>
+                        <input type="time" id="time" name="time" required /><br/>
+
+                        <label for="party_size">Party Size (between 1, ${tables.get(i).getCap()})</label>
+                        <input type="range" id="party_size" name="party_size" min="1" max="${tables.get(i).getCap()}" required /><br/>
+
                         <input type="submit" name="action" value="Submit" />
                      </form>
                 </div>
             </div>
         </c:forEach>
 
-        <script>
-            var prev_elmt_num = null;
+        <script src="JS/reservation.js"></script>
 
-            function select_table(num) {
-                var element = document.getElementById("table_selection_" + num);
-                var prev_element = document.getElementById("table_selection_" + prev_elmt_num);
-
-                if (element.dataset.reserved === "true") {
-                    window.alert("This table is already reserved.");
-                    return;
-                }
-
-                if ((element.style.display === 'none') || (num !== prev_elmt_num)) {
-                    if (prev_elmt_num != null) {
-                        prev_element.style.display = 'none';
-                    }
-                    element.style.display = 'block';
-                    prev_elmt_num = num;
-                } else {
-                    element.style.display = 'none';
-                    prev_element.style.display = 'none';
-                    prev_elmt_num = null;
-                }
-            }
-
-            function load_table_icons() {
-                const images = ["Assets/Available_Table_Icon.png", "Assets/Reserved_Table_Icon.png"];
-                for (let i = 1; i < 6; i++) {
-                    const imageElement = document.getElementById("btn_img" + i);
-                    const tableSelector = document.getElementById("table_selection_" + i);
-                    if (tableSelector.dataset.reserved === "false") {
-                        imageElement.src = images[0];
-                    } else {
-                        imageElement.src = images[1];
-                    }
-                }
-            }
-
-            document.addEventListener("DOMContentLoaded", function() {
-                load_table_icons();
-            });
-        </script>
     </div>
 
-    <p>Make a reservation:</p>
+    <p style="text-align: center; font-size: 32px; background-color: tomato;"> ${error} </p>
+
+    <!--<p>Make a reservation:</p>
 
     <form method="post">
         <input type="hidden" name="acc_usern" value="${sessionScope.username}" /><br/>
@@ -152,7 +121,7 @@
         <input type="time" value="time" required /><br/>
         <input type="submit" name="action" value="Submit" />
     </form>
-    <br/>
+    <br/>-->
 
     <!--<table>
         <tr>
@@ -172,7 +141,5 @@
             </tr>
         </c:forEach>
     </table>-->
-
-    <p> ${error} </p>
 </body>
 </html>

@@ -53,7 +53,7 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}</h1>
+    <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}  </h1>
     <a href="main-servlet" class="button">Return to Homepage</a>
 
     <div id="button_tab">
@@ -172,6 +172,7 @@
                         <th>Table</th>
                         <th>Date</th>
                         <th>Time</th>
+                        <th>Party Size</th>
                     </tr>
                     <c:forEach items="${reservations.values()}" var="cur_res">
                         <tr>
@@ -180,6 +181,7 @@
                             <td>${cur_res.getTableNum()}</td>
                             <td>${cur_res.getDate()}</td>
                             <td>${cur_res.getTime()}</td>
+                            <td>${cur_res.getPartySize()}</td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -198,38 +200,30 @@
                     <input type="number" name="table_number" id="table_number" /><br/>
 
                     <label for="date">Date:</label>
-                    <input type="text" name="date" id="date" /><br/>
+                    <input type="date" name="date" id="date" /><br/>
 
                     <label for="time">Time:</label>
-                    <input type="text" name="time" id="time" /><br/>
+                    <input type="time" name="time" id="time" /><br/>
+
+                    <label for="party_size">Party Size (between 1, ${tables.get(i).getCap()})</label>
+                    <input type="number" id="party_size" name="party_size" /><br/>
 
                     <input type="submit" name="submit_type" value="Edit Reservation" />
                     <input type="submit" name="submit_type" value="Delete Reservation" />
-                </form>
-
-                <form method="post">
                     <input type="submit" name="submit_type" value="Save Changes" />
                 </form>
+                <!--<form method="post">
+                    <input type="hidden" name="editing_page" value="reservations" />
+                    <input type="hidden" name="res_number" value="-1"/><br/>
+                    <input type="hidden" name="table_number" value="-1"/><br/>
+                    <input type="submit" name="submit_type" value="Save Changes" />
+                </form>-->
             </div>
         </div>
 
-        <script>
-            const tabs = ['account_editing', 'table_editing', 'reservation_editing'];
-
-            function show_editing_menu(menu) {
-                var x = document.getElementById(menu);
-                if (x.style.display === 'none') {
-                    x.style.display = 'block';
-
-                    for (let i=0; i<tabs.length; i++) {
-                        if (tabs[i] !== menu) {
-                            let item = document.getElementById(tabs[i])
-                            item.style.display = 'none';
-                        }
-                    }
-                }
-            }
-        </script>
+        <script src="JS/admin.js"></script>
     </div>
+
+    <p style="text-align: center; font-size: 32px; background-color: tomato;"> ${error} </p>
 </body>
 </html>

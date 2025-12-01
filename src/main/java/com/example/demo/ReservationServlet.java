@@ -33,24 +33,34 @@ public class ReservationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 
+        //Clearing any existing errors.
+        request.setAttribute("error", "");
+
         String action = request.getParameter("action");
         switch (action) {
             case "Submit":
                 int table_num = Integer.parseInt(request.getParameter("table_num"));
+                String date = request.getParameter("date");
+                String acc_usern = request.getParameter("acc_usern");
+                String time = request.getParameter("time");
+                String party_size = request.getParameter("party_size");
+                String[] data = {acc_usern, String.valueOf(table_num), date, time, party_size};
 
-                if (!TableManager.checkReserved(table_num)) {
-                    TableManager.updateReserved(table_num, true);
-
-                    String acc_usern = request.getParameter("acc_usern");
-                    String date = request.getParameter("date");
-                    String time = request.getParameter("time");
-                    String[] data = {acc_usern, String.valueOf(table_num), date, time};
-
-                    ReservationManager.addReservation(data);
-                } else {
-                    request.setAttribute("error", "Given table #" + table_num + " is already reserved.");
+                /*if (!ReservationManager.verifyResDateTime(date, time)) {
+                    request.setAttribute("error", "Cannot select a date or time before current date/time.");
+                    break;
                 }
+                //request.setAttribute("error", ReservationManager.verifyResDateTime(date, time));
+                if (TableManager.checkReserved(table_num)) {
+                    request.setAttribute("error", "Given table #" + table_num + " is already reserved.");
+                    break;
+                }*/
 
+                TableManager.updateReserved(table_num, true);
+                //ReservationManager.addReservation(data);
+                request.setAttribute("error", ReservationManager.addReservation(data));
+
+                updateDatabase();
                 break;
         }
 
@@ -64,5 +74,10 @@ public class ReservationServlet extends HttpServlet {
         request.setAttribute("tables", TableManager.getTables());
         request.setAttribute("reservations", ReservationManager.getReservations());
         request.setAttribute("current_directory", System.getProperty("user.dir"));
+    }
+
+    protected void updateDatabase() {
+        TableManager.updateDB();
+        ReservationManager.updateDB();
     }
 }
