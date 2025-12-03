@@ -63,6 +63,7 @@ public abstract class DatabaseHandler {
         }
     }
 
+    /*
     public static void appendDB(HashMap<Integer, String[]> targetDB, int item_num, String[] data) {
         targetDB.put(item_num, data);
     }
@@ -72,7 +73,6 @@ public abstract class DatabaseHandler {
     public static void popDB(HashMap<Integer, String[]> targetDB, int item_num) {
         targetDB.remove(item_num);
     }
-
     public static void printDB(HashMap<Integer, String[]> targetDB) {
         for (String[] data : targetDB.values()) {
             for (String line : data) {
@@ -81,6 +81,7 @@ public abstract class DatabaseHandler {
             System.out.println();
         }
     }
+    */
 
     // -- Intended for override
     protected abstract void castToObjectDB(HashMap<Integer, String[]> currentDB);

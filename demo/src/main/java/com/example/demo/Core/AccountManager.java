@@ -92,12 +92,13 @@ public class AccountManager extends DatabaseHandler {
     }
 
     public Account getAccount(String usern) {
-        for (Account acc : AccountsDB.values()) {
+        return AccountsDB.get(usern);
+        /*for (Account acc : AccountsDB.values()) {
             if (acc.getUsername().equals(usern)) {
                 return acc;
             }
         }
-        return null;
+        return null;*/
     }
 
     public boolean validateLogin(String username, String password) {

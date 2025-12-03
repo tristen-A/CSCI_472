@@ -151,6 +151,14 @@ public class ReservationManager extends DatabaseHandler {
         return return_db;
     }
 
+    /*public Reservation getReservationByUsern(String usern) {
+        for (Reservation cur_res : ReservDB.values()) {
+            if ( cur_res.getAccUsern().equals(usern) ) {
+                ;
+            }
+        }
+    }*/
+
     // --- Error checking methods ------------------------------------------------------
     public boolean verifyResNum(int res_num) {
         return (ReservDB.get(res_num) != null);

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project default="clean" xmlns:jacoco="antlib:org.jacoco.ant">
+	<path id="classpath">
+		<pathelement location="lib/junit-4.13.2.jar"/>
+		<pathelement location="lib/hamcrest-core-1.3.jar"/>
+        <pathelement location="lib/jacocoant.jar"/>
+		<!--<path location="build">
+            <fileset dir="build" includes="*.jar"/>
+        </path>-->
+        <path location="build"/>
+	</path>
+
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="lib/jacocoant.jar"/>
+    </taskdef>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="build"/>
+        <!--<mkdir dir="build/Database"/>
+        <javac srcdir="demo/src/main/java/com/example/demo" destdir="build" includeantruntime="true">
+            <classpath refid="classpath"/>
+            <fileset dir="${dir.src}" >
+                <exclude name="**/A-dir/**"/>
+            </fileset>
+        </javac>-->
+
+        <javac destdir="build" includeantruntime="true">
+            <classpath refid="classpath"/>
+            <src>
+                <pathelement location="demo/src/main/java/com/example/demo/Core" />
+                <pathelement location="demo/src/main/java/com/example/demo/Database" />
+                <pathelement location="demo/src/main/java/com/example/demo/Tests" />
+            </src>
+        </javac>
+
+        <!--<javac srcdir="demo/src/main/java/com/example/demo/Database" destdir="build" includeantruntime="true">
+            <classpath refid="classpath"/>
+        </javac>-->
+        <!--<jar destfile="./SearchSortTest.jar" basedir="build">
+			<manifest>
+                <attribute name="Main-Class" value="src.main.app.Runner"/>
+            </manifest>
+		</jar>-->
+    </target>
+
+    <target name="test" depends="compile">
+        <jacoco:coverage destfile="build/jacoco.exec">
+            <junit printsummary="on" haltonfailure="yes" fork="true">
+                <classpath refid="classpath"/>
+                <formatter type="brief" usefile="false"/>
+                <batchtest haltonfailure="false" fork="true">
+                    <fileset dir="build">
+                        <!--<include name="**/*Test*.java"/>-->
+                        <!--<exclude name="Runner*.*"/>-->
+                        <exclude name="**/*$*.class" />
+                        <include name="**/*Test*.class"/>
+                    </fileset>
+                </batchtest>
+                <!--<test name="TestSortingAlgorithms"/>-->
+            </junit>
+        </jacoco:coverage>
+    </target>
+
+    <target name="report" depends="test">
+        <jacoco:report>
+            <!-- Provide collected execution data -->
+            <executiondata>
+                <file file="build/jacoco.exec" />
+            </executiondata>
+
+            <!-- Specify class files and source files -->
+            <structure name="JaCoCo Ant">
+                <classfiles>
+                    <fileset dir="build"/>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset dir="src"/>
+                </sourcefiles>
+            </structure>
+
+            <!-- Specify the format of the reports -->
+            <html destdir="build/site/jacoco" />
+            <csv destfile="build/site/jacoco/report.csv" />
+            <xml destfile="build/site/jacoco/report.xml" />
+        </jacoco:report>
+    </target>
+
+    <target name="run" depends="compile">
+		<java jar="SearchSortTest.jar" fork="true"/>
+	</target>
+</project>
