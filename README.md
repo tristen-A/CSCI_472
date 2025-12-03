@@ -1,6 +1,6 @@
 Ant script tasks are as follows;
 
---- 'ant clean': Cleans the "build" directory of the project.
+--- 'ant clean': Cleans the "build" directory of the project./n
 --- 'ant compile': Compiles Java source files under demo/Core, demo/Database, and demo/Tests.
 --- 'ant test': Runs JUnit test cases built under build/Tests. Creates Jacoco coverage documentation under build.
 --- 'ant report': Compiles coverage documentation into a browser-viewable .html file under build/site/jacoco.
