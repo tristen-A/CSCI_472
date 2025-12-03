@@ -24,10 +24,22 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        updatePage(request);
+        int auth_level = 0;
+        if (request.getSession().getAttribute("auth_level") != null) {
+            auth_level = (Integer) request.getSession().getAttribute("auth_level");
+        }
+        if (auth_level < 4) {
+            //response.sendRedirect("main-servlet");
+            request.setAttribute("error", "Cannot access admin portal without an admin account.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            request.setAttribute("error", "");
+            updatePage(request);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/admin.jsp");
-        dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/admin.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     @Override
@@ -66,7 +78,10 @@ public class AdminServlet extends HttpServlet {
                     break;
             }
         } else if (editing_page.equals("tables")) {
-            int number = Integer.parseInt(request.getParameter("number"));
+            int number = 0;
+            if (!request.getParameter("number").isEmpty()) {
+                number = Integer.parseInt(request.getParameter("number"));
+            }
             String cap = String.valueOf(request.getParameter("cap"));
             String price = String.valueOf(request.getParameter("price"));
             String location = request.getParameter("location");

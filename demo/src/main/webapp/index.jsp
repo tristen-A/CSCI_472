@@ -12,12 +12,15 @@
         <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}  </h1>
 
         <!--<a href="login" class="button">Login Here</a>
-        <a href="profile" class="button">Profile</a>-->
+        <a href="profile" class="button">Profile</a>
 
         <form method="post">
-            <input type="submit" name="page_request" value="login" />
-            <input type="submit" name="page_request" value="profile" />
-        </form>
+            <input type="submit" name="page_request" value="/login" />
+            <input type="submit" name="page_request" value="/profile" />
+        </form>-->
+
+        <button onclick="page_redirect('login', '${sessionScope.username}');">Login</button>
+        <button onclick="page_redirect('profile', '${sessionScope.username}');">Profile</button>
 
         <p>Navigate to one of these three pages to get started;</p>
         <a href="reservation">
@@ -29,7 +32,20 @@
         </a>
         <label for="admin-icon">Administrator Portal</label><br>
 
-        <p>${error}</p>
-        <p>${req}</p>
+        <p style="text-align: center; font-size: 32px; background-color: tomato; color: white;">${error}</p>
+
+        <script>
+            function page_redirect(page, cur_username) {
+                if (page == 'login') {
+                    window.location.href = page;
+                } else if (page == 'profile') {
+                    if (cur_username == null) {
+                        window.alert("You need to log in before accessing your profile!");
+                    } else {
+                        window.location.href = page;
+                    }
+                }
+            }
+        </script>
     </body>
 </html>

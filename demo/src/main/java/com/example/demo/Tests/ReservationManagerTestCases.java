@@ -6,8 +6,7 @@
 package com.example.demo.Tests;
 
 import com.example.demo.Core.*;
-import com.example.demo.Database.Account;
-import com.example.demo.Database.Reservation;
+import com.example.demo.Database.*;
 import org.junit.Test;
 import org.junit.AfterClass;
 
@@ -283,6 +282,14 @@ public class ReservationManagerTestCases {
         String RESERVATION_DB = CURRENT_DIR + "\\" + "dbReservations.csv";
         String ACCOUNT_DB = CURRENT_DIR + "\\" + "dbAccounts.csv";
         String TABLE_DB = CURRENT_DIR + "\\" + "dbTables.csv";
+
+        AccountManager accmgr = new AccountManager();
+        TableManager tblmgr = new TableManager();
+        HashMap<String, Account> account_db = accmgr.getAccounts();
+        HashMap<Integer, Table> table_db = tblmgr.getTables();
+
+        account_db.clear();
+        table_db.clear();
 
         File file = new File(RESERVATION_DB);
         if (file.delete()) {

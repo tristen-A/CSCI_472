@@ -32,7 +32,9 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         if (AccManager.validateLogin(username, password)) {
+            int auth_level = AccManager.getAccount(username).getAuth();
             request.getSession().setAttribute("username", username);
+            request.getSession().setAttribute("auth_level", auth_level);
             response.sendRedirect("main-servlet");
         } else {
             request.setAttribute("error", "Invalid username or password.");

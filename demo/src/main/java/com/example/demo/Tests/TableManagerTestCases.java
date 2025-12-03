@@ -5,8 +5,9 @@
 
 package com.example.demo.Tests;
 
-import com.example.demo.Core.AccountManager;
-import com.example.demo.Database.Account;
+import com.example.demo.Core.TableManager;
+import com.example.demo.Database.Reservation;
+import com.example.demo.Database.Table;
 import org.junit.Test;
 import org.junit.AfterClass;
 
@@ -17,27 +18,27 @@ import static org.junit.Assert.assertEquals;
 
 public class TableManagerTestCases {
 
-    /*public HashMap<String, Account> createObjectDB() {
-        HashMap<String, Account> objectDB = new HashMap<>();
-        objectDB.put("Username", new Account("Username", "Password", "Name", 1));
-        objectDB.put("usern", new Account("usern", "pass", "bill", 4));
+    public HashMap<Integer, Table> createObjectDB() {
+        HashMap<Integer, Table> objectDB = new HashMap<>();
+        objectDB.put(1, new Table(1, 4, 100, "Gallery A", false));
+        objectDB.put(2, new Table(2, 8, 200, "Gallery B", false));
         return objectDB;
     }
 
     public HashMap<Integer, String[]> createRawDB() {
         HashMap<Integer, String[]> rawDB = new HashMap<>();
-        rawDB.put(0, new String[] {"Username", "Password", "Name", "1"});
-        rawDB.put(1, new String[] {"usern", "pass", "bill", "4"});
+        rawDB.put(1, new String[] {"4", "100", "Gallery A", "false"});
+        rawDB.put(2, new String[] {"8", "200", "Gallery B", "false"});
         return rawDB;
     }
 
     public void createDBFile() {
         HashMap<Integer, String[]> rawDB = new HashMap<Integer, String[]>();
-        rawDB.put(0, new String[] {"Username", "Password", "Name", "1"});
-        rawDB.put(1, new String[] {"usern", "pass", "bill", "4"});
+        rawDB.put(1, new String[] {"4", "100", "Gallery A", "false"});
+        rawDB.put(2, new String[] {"8", "200", "Gallery B", "false"});
 
         String CURRENT_DIR = System.getProperty("user.dir");
-        String TEST_DIR = CURRENT_DIR + "\\" + "dbAccounts.csv";
+        String TEST_DIR = CURRENT_DIR + "\\" + "dbTables.csv";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TEST_DIR))) {
             for (int item_num : rawDB.keySet()) {
                 String[] data = rawDB.get(item_num);
@@ -55,7 +56,7 @@ public class TableManagerTestCases {
         HashMap<Integer, String[]> loadDB = new HashMap<Integer, String[]>();
 
         String CURRENT_DIR = System.getProperty("user.dir");
-        String TEST_DIR = CURRENT_DIR + "\\" + "dbAccounts.csv";
+        String TEST_DIR = CURRENT_DIR + "\\" + "dbTables.csv";
         try (BufferedReader reader = new BufferedReader(new FileReader(TEST_DIR))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -76,74 +77,72 @@ public class TableManagerTestCases {
     // Test #1:
     @Test
     public void evaluateDBLoading() {
-        HashMap<String, Account> EXPECTED_DB = createObjectDB();
-        //HashMap<String, Account> EXPECTED_DB = new HashMap<String, Account>();
-        //HashMap<Integer, String[]> TEST_DB = new HashMap<Integer, String[]>();
+        HashMap<Integer, Table> EXPECTED_DB = createObjectDB();
 
         createDBFile();
-        AccountManager accmgr = new AccountManager();
+        TableManager tblmgr = new TableManager();
 
-        HashMap<String, Account> TEST_DB = accmgr.getAccounts();
-        Account acc1 = EXPECTED_DB.get("Username");
-        Account acc2 = TEST_DB.get("Username");
+        HashMap<Integer, Table> TEST_DB = tblmgr.getTables();
+        Table tbl1 = EXPECTED_DB.get(1);
+        Table tbl2 = TEST_DB.get(1);
 
-        assertEquals(acc1.getUsername(), acc2.getUsername());
-        assertEquals(acc1.getPassword(), acc2.getPassword());
-        assertEquals(acc1.getName(), acc2.getName());
-        assertEquals(acc1.getAuth(), acc2.getAuth());
+        assertEquals(tbl1.getNumber(), tbl2.getNumber());
+        assertEquals(tbl1.getCap(), tbl2.getCap());
+        assertEquals(tbl1.getPrice(), tbl2.getPrice());
+        assertEquals(tbl1.getLocation(), tbl2.getLocation());
+        assertEquals(tbl1.checkReservation(), tbl2.checkReservation());
 
-        Account acc3 = EXPECTED_DB.get("usern");
-        Account acc4 = TEST_DB.get("usern");
+        Table tbl3 = EXPECTED_DB.get(2);
+        Table tbl4 = TEST_DB.get(2);
 
-        assertEquals(acc3.getUsername(), acc4.getUsername());
+        assertEquals(tbl3.getNumber(), tbl4.getNumber());
     }
 
     @Test
     public void evaluateDBSaving() {
         HashMap<Integer, String[]> EXPECTED_DB = createRawDB();
 
-        AccountManager accmgr = new AccountManager();
-        accmgr.updateDB();
+        TableManager tblmgr = new TableManager();
+        tblmgr.updateDB();
 
         HashMap<Integer, String[]> TEST_DB = loadRawDB();
 
-        String[] acc1 = EXPECTED_DB.get(0);
-        String[] acc2 = TEST_DB.get(0);
+        String[] tbl1 = EXPECTED_DB.get(1);
+        String[] tbl2 = TEST_DB.get(1);
 
-        assertEquals(acc1[0], acc2[0]);
-        assertEquals(acc1[1], acc2[1]);
-        assertEquals(acc1[2], acc2[2]);
-        assertEquals(acc1[3], acc2[3]);
+        assertEquals(tbl1[0], tbl2[0]);
+        assertEquals(tbl1[1], tbl2[1]);
+        assertEquals(tbl1[2], tbl2[2]);
+        assertEquals(tbl1[3], tbl2[3]);
 
-        String[] acc3 = EXPECTED_DB.get(1);
-        String[] acc4 = TEST_DB.get(1);
+        String[] tbl3 = EXPECTED_DB.get(2);
+        String[] tbl4 = TEST_DB.get(2);
 
-        assertEquals(acc3[0], acc4[0]);
+        assertEquals(tbl3[0], tbl4[0]);
     }
 
     @Test
     public void evaluateDBAdd() {
-        AccountManager accmgr = new AccountManager();
+        TableManager tblmgr = new TableManager();
 
-        String[] data = {"bobnt", "billybobjones", "Bobby", "3"};
-        //String[] data2 = {"grbnut", "beowulf", "Grendel", "2"};
-        accmgr.addAccount(data);
-        //accmgr.addAccount(data2);
+        String[] data = {"4", "100", "Gallery C", "false"};
+        tblmgr.addTable(3, data);
 
-        Account acc = accmgr.getAccount(data[0]);
-        //Account acc2 = accmgr.getAccount(data2[0]);
+        HashMap<Integer, Table> tbl_db = tblmgr.getTables();
+        Table tbl = tbl_db.get(3);
 
-        assertEquals(data[0], acc.getUsername());
-        assertEquals(data[1], acc.getPassword());
-        assertEquals(data[2], acc.getName());
-        assertEquals(Integer.parseInt(data[3]), acc.getAuth());
+        assertEquals(3, tbl.getNumber());
+        assertEquals(Integer.parseInt(data[0]), tbl.getCap());
+        assertEquals(Integer.parseInt(data[1]), tbl.getPrice());
+        assertEquals(data[2], tbl.getLocation());
+        assertEquals(Boolean.parseBoolean(data[3]), tbl.checkReservation());
     }
-    @Test
+    /*@Test
     public void evaluateDBAddErrors() {
-        AccountManager accmgr = new AccountManager();
+        TableManager tblmgr = new TableManager();
 
-        String[] data = {"bobnt", "", "Bobby", "3"};
-        String error = accmgr.addAccount(data);
+        String[] data = {"4", "100", "Gallery C", "false"};
+        String error = tblmgr.addTable(3, data);
         String expected_msg = ("Account username '" + data[0] + "' already exists.");
 
         assertEquals(expected_msg, error);
@@ -243,18 +242,18 @@ public class TableManagerTestCases {
 
         assertEquals(true, valid_login);
         assertEquals(false, invalid_login);
-    }
+    }*/
 
     @AfterClass
     public static void cleanDBFiles() {
         String CURRENT_DIR = System.getProperty("user.dir");
-        String ACCOUNT_DB = CURRENT_DIR + "\\" + "dbAccounts.csv";
+        String TABLE_DB = CURRENT_DIR + "\\" + "dbTables.csv";
 
-        File file = new File(ACCOUNT_DB);
+        File file = new File(TABLE_DB);
         if (file.delete()) {
             System.out.println("Testing file cleaned!");
         } else {
-            System.out.println("File directory '" + ACCOUNT_DB + "' not found.");
+            System.out.println("File directory '" + TABLE_DB + "' not found.");
         }
-    }*/
+    }
 }

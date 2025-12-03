@@ -104,9 +104,6 @@
                     <input type="submit" name="submit_type" value="Add Account" />
                     <input type="submit" name="submit_type" value="Edit Account" />
                     <input type="submit" name="submit_type" value="Delete Account" />
-                </form>
-
-                <form method="post">
                     <input type="submit" name="submit_type" value="Save Changes" />
                 </form>
             </div>
@@ -155,9 +152,6 @@
                     <input type="submit" name="submit_type" value="Add Table" />
                     <input type="submit" name="submit_type" value="Edit Table" />
                     <input type="submit" name="submit_type" value="Delete Table" />
-                </form>
-
-                <form method="post">
                     <input type="submit" name="submit_type" value="Save Changes" />
                 </form>
             </div>
