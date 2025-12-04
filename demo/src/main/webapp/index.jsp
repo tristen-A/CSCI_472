@@ -39,7 +39,7 @@
                 if (page == 'login') {
                     window.location.href = page;
                 } else if (page == 'profile') {
-                    if (cur_username == null) {
+                    if (cur_username == null || cur_username == "") {
                         window.alert("You need to log in before accessing your profile!");
                     } else {
                         window.location.href = page;

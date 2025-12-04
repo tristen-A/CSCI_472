@@ -26,8 +26,6 @@ function load_table_icons() {
     const images = ["Assets/Available_Table_Icon.png", "Assets/Reserved_Table_Icon.png"];
     const amount = parseInt(document.getElementById("table_container").dataset.amount);
 
-    window.alert(amount);
-
     for (let i = 1; i <= amount + 1; i++) {
         const imageElement = document.getElementById("btn_img" + i);
         const tableSelector = document.getElementById("table_selection_" + i);

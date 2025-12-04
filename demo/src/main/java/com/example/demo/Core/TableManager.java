@@ -99,12 +99,14 @@ public class TableManager extends DatabaseHandler {
     }
     //----------------------------------------------------------------------------------
 
-
     public boolean checkReserved(int table_num) {
         return TablesDB.get(table_num).checkReservation();
     }
     public void updateReserved(int table_num, boolean reserved) {
-        TablesDB.get(table_num).setReservation(reserved);
+        Table tbl = TablesDB.get(table_num);
+        if (tbl != null) {
+            TablesDB.get(table_num).setReservation(reserved);
+        }
     }
 
     public void updateDB() {

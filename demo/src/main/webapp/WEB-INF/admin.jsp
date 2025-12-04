@@ -199,7 +199,7 @@
                     <label for="time">Time:</label>
                     <input type="time" name="time" id="time" /><br/>
 
-                    <label for="party_size">Party Size (between 1, ${tables.get(i).getCap()})</label>
+                    <label for="party_size">Party Size</label>
                     <input type="number" id="party_size" name="party_size" /><br/>
 
                     <input type="submit" name="submit_type" value="Edit Reservation" />
