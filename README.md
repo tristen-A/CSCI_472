@@ -6,3 +6,8 @@ Ant script tasks are as follows;
 --- 'ant report': Compiles coverage documentation into a browser-viewable .html file under build/site/jacoco.  
 
 NOTE: This project is originally built in IntellIJ. IntellIJ project structure has been maintained for ease of development, but should not interfere with Ant automation.
+Given this, to run the project;
+
+- Open the 'demo' directory as a project in IntellIJ,
+- Ensure a tomcat plugin is installed (SmartTomcat),
+- Deploy the project locally in IntellIJ
