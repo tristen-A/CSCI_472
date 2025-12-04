@@ -46,6 +46,10 @@ public class AccountManager extends DatabaseHandler {
     }
 
     public String addAccount(String[] data) {
+        if (!verifyNonEmptyData(data)) {
+            return ("Cannot add an account with incomplete fields!");
+        }
+
         if (!verifyUniqueUsername(data[0])) {
             return ("Account username '" + data[0] + "' already exists.");
         }
@@ -111,6 +115,10 @@ public class AccountManager extends DatabaseHandler {
     }
 
     // --- Error checking methods ------------------------------------------------------
+    public boolean verifyNonEmptyData(String[] data) {
+        return (!data[0].isEmpty() && !data[1].isEmpty() && !data[2].isEmpty() && !data[3].isEmpty());
+    }
+
     public boolean verifyUniqueUsername(String username) {
         return (AccountsDB.get(username) == null);
     }
