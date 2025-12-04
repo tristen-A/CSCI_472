@@ -25,20 +25,19 @@ public class MainServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String page_request = request.getParameter("page_request");
+        request.setAttribute("req", page_request);
 
-        if (page_request.equals("Profile")) {
-            if (request.getSession().getAttribute("username") == null) {
-                response.sendRedirect("/WEB-INF/profile");
-                return;
+        /*if (page_request.equals("profile")) {
+            if (!(request.getSession().getAttribute("username") == null)) {
+                response.sendRedirect("profile");
             } else {
-                request.setAttribute("error", "Fargunk");
+                request.setAttribute("error", "Not currently logged in!");
             }
-        } else if (page_request.equals("Login")) {
-            response.sendRedirect("/WEB-INF/login");
-            return;
-        }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-        dispatcher.forward(request, response);
+        } else if (page_request.equals("login")) {
+            response.sendRedirect("login");
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+            dispatcher.forward(request, response);
+        }*/
     }
 }

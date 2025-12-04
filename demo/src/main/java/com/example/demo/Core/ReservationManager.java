@@ -71,7 +71,7 @@ public class ReservationManager extends DatabaseHandler {
             return ("Given table #" + tbl_num + " is already reserved.");
         }
         if (!verifyResDateTime(data[2], data[3])) {
-            return ("Cannot select a date or time before current date/time.");
+            return ("Cannot select a date or time before current date/time, or within the next hour.");
         }
 
         Reservation res = new Reservation(CUR_TOP_NUM, data);
@@ -81,11 +81,15 @@ public class ReservationManager extends DatabaseHandler {
         return "";
     }
     public String editReservation(int res_num, String[] data) {
-        int tbl_num = Integer.parseInt(data[1]);
-
+        if (!verifyResNum(res_num)) {
+            return ("Given reservation #" + res_num + " does not exist.");
+        }
         Reservation cur_res = ReservDB.get(res_num);
+
         if (!data[0].isEmpty()) { cur_res.setAccUsern(data[0]); }
         if (!data[1].isEmpty()) {
+            int tbl_num = Integer.parseInt(data[1]);
+
             if (!TableManager.verifyTableNum(tbl_num)) {
                 return ("Given table #" + tbl_num + " does not exist.");
             }
@@ -99,17 +103,19 @@ public class ReservationManager extends DatabaseHandler {
         }
         if (!data[2].isEmpty()) {
             if (!verifyResDateTime(data[2], cur_res.getTime())) {
-                return ("Cannot select a date or time before current date/time.");
+                return ("Cannot select a date or time before current date/time, or within the next hour.");
             }
             cur_res.setDate(data[2]);
         }
         if (!data[3].isEmpty()) {
             if (!verifyResDateTime(cur_res.getDate(), data[3])) {
-                return ("Cannot select a date or time before current date/time.");
+                return ("Cannot select a date or time before current date/time, or within the next hour.");
             }
             cur_res.setTime(data[3]);
         }
         if (!data[4].isEmpty()) {
+            int tbl_num = cur_res.getTableNum();
+
             if (!TableManager.verifyWithinCap(tbl_num, Integer.parseInt(data[4]))) {
                 return ("Party size is not within table capacity.");
             }
@@ -121,7 +127,7 @@ public class ReservationManager extends DatabaseHandler {
     }
     public String deleteReservation(int res_num) {
         if (!verifyResNum(res_num)) {
-            return ("Given reservtaion #" + res_num + " does not exist.");
+            return ("Given reservation #" + res_num + " does not exist.");
         }
 
         Reservation cur_res = ReservDB.get(res_num);
@@ -151,6 +157,14 @@ public class ReservationManager extends DatabaseHandler {
         return return_db;
     }
 
+    /*public Reservation getReservationByUsern(String usern) {
+        for (Reservation cur_res : ReservDB.values()) {
+            if ( cur_res.getAccUsern().equals(usern) ) {
+                ;
+            }
+        }
+    }*/
+
     // --- Error checking methods ------------------------------------------------------
     public boolean verifyResNum(int res_num) {
         return (ReservDB.get(res_num) != null);
@@ -168,8 +182,17 @@ public class ReservationManager extends DatabaseHandler {
             long diff = date.getTime() - cur_date.getTime();
             long hourDiff = (diff / (1000 * 60 * 60)) % 24;
 
-            return date.after(cur_date) && (hourDiff > 1);
-            //return (hourDiff);
+            String select_day = date_str.split("-")[2];
+            String cur_day = sdfDate.format(cur_date).split(" ")[0].split("-")[2];
+            //date_parts[1]
+
+            boolean valid_hour = true;
+            if (select_day.equals(cur_day) && hourDiff < 1) {
+                valid_hour = false;
+            }
+
+            return date.after(cur_date) && valid_hour;
+            //return (cur_date + "//" + diff);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

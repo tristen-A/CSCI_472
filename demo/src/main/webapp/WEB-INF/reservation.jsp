@@ -66,7 +66,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" id="table_container" data-amount="${tables.size()}">
         <c:forEach items="${tables.keySet()}" var="i">
             <div>
                 <!--<form method="post">
@@ -92,7 +92,7 @@
                         <input type="hidden" name="table_num" value="${i}" /><br/>
 
                         <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required /><br/
+                        <input type="date" id="date" name="date" required /><br/>
 
                         <label for="time">Time</label>
                         <input type="time" id="time" name="time" required /><br/>
@@ -107,7 +107,6 @@
         </c:forEach>
 
         <script src="JS/reservation.js"></script>
-
     </div>
 
     <p style="text-align: center; font-size: 32px; background-color: tomato;"> ${error} </p>

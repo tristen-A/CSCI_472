@@ -40,8 +40,8 @@ public class ReservationServlet extends HttpServlet {
         switch (action) {
             case "Submit":
                 int table_num = Integer.parseInt(request.getParameter("table_num"));
-                String date = request.getParameter("date");
                 String acc_usern = request.getParameter("acc_usern");
+                String date = request.getParameter("date");
                 String time = request.getParameter("time");
                 String party_size = request.getParameter("party_size");
                 String[] data = {acc_usern, String.valueOf(table_num), date, time, party_size};
@@ -56,9 +56,13 @@ public class ReservationServlet extends HttpServlet {
                     break;
                 }*/
 
-                TableManager.updateReserved(table_num, true);
                 //ReservationManager.addReservation(data);
-                request.setAttribute("error", ReservationManager.addReservation(data));
+                String error_msg = ReservationManager.addReservation(data);
+                if (error_msg.isEmpty()) {
+                    TableManager.updateReserved(table_num, true);
+                }
+                request.setAttribute("error", error_msg);
+                //request.setAttribute("error", ReservationManager.verifyResDateTime(date, time));
 
                 updateDatabase();
                 break;

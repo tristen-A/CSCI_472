@@ -44,11 +44,18 @@ public class TableManager extends DatabaseHandler {
     }
 
     public String addTable(int tbl_num, String[] data) {
+        if (!verifyNonEmptyData(data)) {
+            return ("Cannot add a table with incomplete fields!");
+        }
+
         if (verifyTableNum(tbl_num)) {
             return ("Given table #" + tbl_num + " already exists.");
         }
         if (!verifyTableNumRange(tbl_num)) {
             return ("Table number must be above 0 and below 1000.");
+        }
+        if (Integer.parseInt(data[0]) <= 0) {
+            return ("Table capacity must be greater than 0.");
         }
 
         Table tb = new Table(tbl_num, data);
@@ -87,6 +94,9 @@ public class TableManager extends DatabaseHandler {
     }
 
     // --- Error checking methods ------------------------------------------------------
+    public boolean verifyNonEmptyData(String[] data) {
+        return (!data[0].isEmpty() && !data[1].isEmpty() && !data[2].isEmpty() && !data[3].isEmpty());
+    }
     public boolean verifyTableNum(int tbl_num) {
         return (TablesDB.get(tbl_num) != null);
     }
@@ -99,12 +109,14 @@ public class TableManager extends DatabaseHandler {
     }
     //----------------------------------------------------------------------------------
 
-
     public boolean checkReserved(int table_num) {
         return TablesDB.get(table_num).checkReservation();
     }
     public void updateReserved(int table_num, boolean reserved) {
-        TablesDB.get(table_num).setReservation(reserved);
+        Table tbl = TablesDB.get(table_num);
+        if (tbl != null) {
+            TablesDB.get(table_num).setReservation(reserved);
+        }
     }
 
     public void updateDB() {
