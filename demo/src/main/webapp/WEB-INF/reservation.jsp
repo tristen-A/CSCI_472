@@ -110,35 +110,5 @@
     </div>
 
     <p style="text-align: center; font-size: 32px; background-color: tomato;"> ${error} </p>
-
-    <!--<p>Make a reservation:</p>
-
-    <form method="post">
-        <input type="hidden" name="acc_usern" value="${sessionScope.username}" /><br/>
-        <input type="number" name="table_num" required /><br/>
-        <input type="date" name="date" required /><br/>
-        <input type="time" value="time" required /><br/>
-        <input type="submit" name="action" value="Submit" />
-    </form>
-    <br/>-->
-
-    <!--<table>
-        <tr>
-            <th>Number</th>
-            <th>Account</th>
-            <th>Table</th>
-            <th>Date</th>
-            <th>Time</th>
-        </tr>
-        <c:forEach items="${reservations.values()}" var="cur_res">
-            <tr>
-                <td>${cur_res.getResNum()}</td>
-                <td>${cur_res.getAccUsern()}</td>
-                <td>${cur_res.getTableNum()}</td>
-                <td>${cur_res.getDate()}</td>
-                <td>${cur_res.getTime()}</td>
-            </tr>
-        </c:forEach>
-    </table>-->
 </body>
 </html>

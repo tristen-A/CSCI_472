@@ -2,9 +2,6 @@ package com.example.demo.Core;
 
 import com.example.demo.Database.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 
 public class AccountManager extends DatabaseHandler {
@@ -59,8 +56,6 @@ public class AccountManager extends DatabaseHandler {
 
         Account acc = new Account(data);
         AccountsDB.put(data[0], acc);
-        //rawDB.put(CUR_TOP_NUM, data);
-        //csvWriter(DB_FILE, rawDB);
         CUR_TOP_NUM++;
 
         return "";
@@ -74,11 +69,9 @@ public class AccountManager extends DatabaseHandler {
         }
 
         Account cur_acc = AccountsDB.get(usern);
-        //if (!data[0].isEmpty()) { cur_acc.setUsername(data[0]); }
         if (!data[1].isEmpty()) { cur_acc.setPassword(data[1]); }
         if (!data[2].isEmpty()) { cur_acc.setName(data[2]); }
         if (!data[3].isEmpty()) { cur_acc.setAuth(Integer.parseInt(data[3])); }
-        //AccountsDB.replace(usern, cur_acc);
 
         return "";
     }
@@ -87,8 +80,6 @@ public class AccountManager extends DatabaseHandler {
             return ("No account found under username '" + usern + "'.");
         }
 
-        //rawDB.remove(acc_num);
-        //csvWriter(DB_FILE, rawDB);
         AccountsDB.remove(usern);
         CUR_TOP_NUM--;
 
@@ -97,16 +88,9 @@ public class AccountManager extends DatabaseHandler {
 
     public Account getAccount(String usern) {
         return AccountsDB.get(usern);
-        /*for (Account acc : AccountsDB.values()) {
-            if (acc.getUsername().equals(usern)) {
-                return acc;
-            }
-        }
-        return null;*/
     }
 
     public boolean validateLogin(String username, String password) {
-        //String[] userData = getAccountData(username);
         Account cur_acc = AccountsDB.get(username);
         if (cur_acc != null) {
             return cur_acc.getPassword().equals(password);

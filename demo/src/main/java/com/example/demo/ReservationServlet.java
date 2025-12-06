@@ -46,23 +46,11 @@ public class ReservationServlet extends HttpServlet {
                 String party_size = request.getParameter("party_size");
                 String[] data = {acc_usern, String.valueOf(table_num), date, time, party_size};
 
-                /*if (!ReservationManager.verifyResDateTime(date, time)) {
-                    request.setAttribute("error", "Cannot select a date or time before current date/time.");
-                    break;
-                }
-                //request.setAttribute("error", ReservationManager.verifyResDateTime(date, time));
-                if (TableManager.checkReserved(table_num)) {
-                    request.setAttribute("error", "Given table #" + table_num + " is already reserved.");
-                    break;
-                }*/
-
-                //ReservationManager.addReservation(data);
                 String error_msg = ReservationManager.addReservation(data);
                 if (error_msg.isEmpty()) {
                     TableManager.updateReserved(table_num, true);
                 }
                 request.setAttribute("error", error_msg);
-                //request.setAttribute("error", ReservationManager.verifyResDateTime(date, time));
 
                 updateDatabase();
                 break;

@@ -11,14 +11,6 @@
 
         <h1 style="text-align: right; font-size: 20px;">Logged in as: ${sessionScope.username}  </h1>
 
-        <!--<a href="login" class="button">Login Here</a>
-        <a href="profile" class="button">Profile</a>
-
-        <form method="post">
-            <input type="submit" name="page_request" value="/login" />
-            <input type="submit" name="page_request" value="/profile" />
-        </form>-->
-
         <button onclick="page_redirect('login', '${sessionScope.username}');">Login</button>
         <button onclick="page_redirect('profile', '${sessionScope.username}');">Profile</button>
 

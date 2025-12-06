@@ -2,15 +2,12 @@ package com.example.demo.Core;
 
 import com.example.demo.Database.DatabaseHandler;
 import com.example.demo.Database.Reservation;
-import com.example.demo.Database.Account;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import static java.time.temporal.ChronoUnit.HOURS;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class ReservationManager extends DatabaseHandler {
     private static final String DB_FILE = "dbReservations";
@@ -121,7 +118,6 @@ public class ReservationManager extends DatabaseHandler {
             }
             cur_res.setPartySize(Integer.parseInt(data[4]));
         }
-        //ReservDB.replace(res_num, cur_res);
 
         return "";
     }
@@ -157,14 +153,6 @@ public class ReservationManager extends DatabaseHandler {
         return return_db;
     }
 
-    /*public Reservation getReservationByUsern(String usern) {
-        for (Reservation cur_res : ReservDB.values()) {
-            if ( cur_res.getAccUsern().equals(usern) ) {
-                ;
-            }
-        }
-    }*/
-
     // --- Error checking methods ------------------------------------------------------
     public boolean verifyResNum(int res_num) {
         return (ReservDB.get(res_num) != null);
@@ -174,7 +162,6 @@ public class ReservationManager extends DatabaseHandler {
     }
     public boolean verifyResDateTime(String date_str, String time_str) {
         SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //SimpleDateFormat sdfTime = new SimpleDateFormat("hh.mm aa");
         try {
             Date date = sdfDate.parse(date_str + " " + time_str + ":00");
             Date cur_date = new Date();
@@ -184,7 +171,6 @@ public class ReservationManager extends DatabaseHandler {
 
             String select_day = date_str.split("-")[2];
             String cur_day = sdfDate.format(cur_date).split(" ")[0].split("-")[2];
-            //date_parts[1]
 
             boolean valid_hour = true;
             if (select_day.equals(cur_day) && hourDiff < 1) {
@@ -192,15 +178,10 @@ public class ReservationManager extends DatabaseHandler {
             }
 
             return date.after(cur_date) && valid_hour;
-            //return (cur_date + "//" + diff);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
-
-    /*public String[] verifyResInput(int res_num, String[] data) {
-        boolean T1 = verifyResNum()
-    }*/
     //----------------------------------------------------------------------------------
 
     public void updateDB() {

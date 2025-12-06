@@ -15,7 +15,6 @@ import java.io.IOException;
 
 @WebServlet(name = "profileServlet", value = "/profile")
 public class ProfileServlet extends HttpServlet {
-    //private final AccountManager AccManager = new  AccountManager();
     private final TableManager TableManager = new  TableManager();
     private final ReservationManager ReservationManager = new  ReservationManager(TableManager);
 
@@ -43,7 +42,6 @@ public class ProfileServlet extends HttpServlet {
         switch (submit_type) {
             case "Cancel Reservation":
                 ReservationManager.deleteReservation(res_num);
-                //ReservationManager.updateDB();
                 break;
         }
 
@@ -54,9 +52,7 @@ public class ProfileServlet extends HttpServlet {
     }
 
     protected void updatePage(HttpServletRequest request) {
-        //String usern = request.getParameter("username");
         String usern = (String)request.getSession().getAttribute("username");
-        //Account acc = AccManager.getAccount(usern);
         request.setAttribute("acc_reservations", ReservationManager.getAccReservations(usern));
     }
 }

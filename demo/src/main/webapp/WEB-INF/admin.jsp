@@ -206,12 +206,6 @@
                     <input type="submit" name="submit_type" value="Delete Reservation" />
                     <input type="submit" name="submit_type" value="Save Changes" />
                 </form>
-                <!--<form method="post">
-                    <input type="hidden" name="editing_page" value="reservations" />
-                    <input type="hidden" name="res_number" value="-1"/><br/>
-                    <input type="hidden" name="table_number" value="-1"/><br/>
-                    <input type="submit" name="submit_type" value="Save Changes" />
-                </form>-->
             </div>
         </div>
 

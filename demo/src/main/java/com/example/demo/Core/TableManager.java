@@ -74,7 +74,6 @@ public class TableManager extends DatabaseHandler {
         if (!data[1].isEmpty()) { cur_tb.setPrice(Integer.parseInt(data[1])); }
         if (!data[2].isEmpty()) { cur_tb.setLocation(data[2]); }
         if (!data[3].isEmpty()) { cur_tb.setReservation(Boolean.parseBoolean(data[3])); }
-        //TablesDB.replace(tbl_num, cur_tb);
 
         return "";
     }

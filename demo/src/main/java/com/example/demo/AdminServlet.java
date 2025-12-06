@@ -29,7 +29,6 @@ public class AdminServlet extends HttpServlet {
             auth_level = (Integer) request.getSession().getAttribute("auth_level");
         }
         if (auth_level < 4) {
-            //response.sendRedirect("main-servlet");
             request.setAttribute("error", "Cannot access admin portal without an admin account.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
             dispatcher.forward(request, response);
@@ -62,15 +61,12 @@ public class AdminServlet extends HttpServlet {
             String submit_type = request.getParameter("submit_type");
             switch (submit_type) {
                 case "Add Account":
-                    //AccManager.addAccount(data);
                     request.setAttribute("error", AccManager.addAccount(data));
                     break;
                 case "Edit Account":
-                    //AccManager.editAccount(data[0], data);
                     request.setAttribute("error", AccManager.editAccount(data[0], data));
                     break;
                 case "Delete Account":
-                    //AccManager.deleteAccount(data[0]);
                     request.setAttribute("error", AccManager.deleteAccount(data[0]));
                     break;
                 case "Save Changes":
@@ -91,15 +87,12 @@ public class AdminServlet extends HttpServlet {
             String submit_type = request.getParameter("submit_type");
             switch (submit_type) {
                 case "Add Table":
-                    //TableManager.addTable(number, data);
                     request.setAttribute("error", TableManager.addTable(number, data));
                     break;
                 case "Edit Table":
-                    //TableManager.editTable(number, data);
                     request.setAttribute("error", TableManager.editTable(number, data));
                     break;
                 case "Delete Table":
-                    //TableManager.deleteTable(number);
                     request.setAttribute("error", TableManager.deleteTable(number));
                     break;
                 case "Save Changes":
@@ -120,21 +113,9 @@ public class AdminServlet extends HttpServlet {
             String submit_type = request.getParameter("submit_type");
             switch (submit_type) {
                 case "Edit Reservation":
-                    /*if (ReservationManager.verifyResNum(res_number)) {
-                        request.setAttribute("error", "Given reservtaion #" + res_number + "does not exist.");
-                        break;
-                    }
-                    ReservationManager.editReservation(res_number, data);
-                    break;*/
                     request.setAttribute("error", ReservationManager.editReservation(res_number, data));
                     break;
                 case "Delete Reservation":
-                    /*if (ReservationManager.verifyResNum(res_number)) {
-                        request.setAttribute("error", "Given reservtaion #" + res_number + "does not exist.");
-                        break;
-                    }
-                    ReservationManager.deleteReservation(res_number);
-                    break;*/
                     request.setAttribute("error", ReservationManager.deleteReservation(res_number));
                     break;
                 case "Save Changes":
@@ -154,6 +135,5 @@ public class AdminServlet extends HttpServlet {
         request.setAttribute("accounts", AccManager.getAccounts());
         request.setAttribute("tables", TableManager.getTables());
         request.setAttribute("reservations", ReservationManager.getReservations());
-        //request.setAttribute("raw_reservations", ReservationManager.getRawDB());
     }
 }
