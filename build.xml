@@ -2,14 +2,14 @@
 
 <project default="clean" xmlns:jacoco="antlib:org.jacoco.ant">
     <property environment="env"/>
-    <property name="tomcat" value="${env.ANT_HOME}"/>
+    <property name="tomcat" value="${env.CATALINA_HOME}"/>
     <property name="tomcat.deployment" value="${tomcat}/webapps"/>
     <property name="tomcat.bin" value="${tomcat}/bin"/>
     <property name="localtomcat" location="lib/apache-tomcat-10.1.48"/>
 
-    <property name="url" value="http://localhost:8080/fuck" />
-    <property name="username" value="gbids" />
-    <property name="password" value="tomcat" />
+    <property name="url" value="http://localhost:8080/manager/text" />
+    <property name="username" value="admin" />
+    <property name="password" value="password" />
 
 	<path id="classpath">
 		<pathelement location="lib/junit-4.13.2.jar"/>
@@ -37,6 +37,8 @@
     <target name="clean">
         <echo message="${env.ANT_HOME}"/>
         <delete dir="build"/>
+        <delete dir="${tomcat.deployment}/demo"/>
+        <delete file="${tomcat.deployment}/demo.war"/>
     </target>
 
     <target name="compile" depends="clean">
@@ -52,38 +54,9 @@
         </javac>
     </target>
 
-    <!--<target name="war">
-        <war warfile="demo_ant.war" webxml="demo/src/main/webapp/WEB-INF/web.xml">
-            <fileset dir="demo/src/main"/>
-        </war>
-        <antcall target="deploy"/>
-    </target>
-    <target name="deploy">
-        <mkdir dir="deployment"/>
-        <copy file="demo_ant.war" todir="${tomcat.deployment}"/>
-        <copy todir="${tomcat.deployment}">
-            <fileset dir="demo/src/main/webapp"/>
-        </copy>
-        <antcall target="start"/>
-    </target>
-    <target name="start">
-        <exec executable="${tomstart}" searchpath="true"/>
-        <exec executable="cmd" spawn="true" dir="${tomcat.bin}">
-            <arg value="/c"/>
-            <arg value="startup.bat"/>
-        </exec>
-        <exec executable="cmd" spawn="true" dir="${localtomcat}/bin">
-            <arg value="/c"/>
-            <arg value="startup.bat"/>
-        </exec>
-    </target>
-    <target name="stop">
-        <exec executable="${tomcat.bin}/shutdown.bat"/>
-    </target>-->
-
     <target name="war" depends="compile">
-        <delete file="demo_ant.war"/>
-        <war destfile="demo_ant.war" webxml="demo/src/main/webapp/WEB-INF/web.xml">
+        <delete file="demo.war"/>
+        <war destfile="demo.war" webxml="demo/src/main/webapp/WEB-INF/web.xml">
             <fileset dir="demo/src/main/webapp" />
             <!--<lib dir="WebContent/WEB-INF/lib" />-->
             <classes dir="build/com/example/demo" />
@@ -97,8 +70,9 @@
         </exec>
     </target>
 
-    <target name="deploy" description="Install web application" depends="start">
-        <deploy url="${url}" username="${username}" password="${password}" path="demo/src/main/webapp" war="demo_ant.war" />
+    <target name="deploy" description="Install web application">
+        <copy file="demo.war" todir="${tomcat.deployment}"/>
+        <deploy url="${url}" username="${username}" password="${password}" path="/demo" localWar="demo.war" />
     </target>
 
     <target name="test" depends="compile">
