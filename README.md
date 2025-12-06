@@ -20,3 +20,5 @@ Given this, to run the project;
 - Provided 'db' files (dbAccounts, tbTables) can be used as default information. These will have to be placed under Tomcat's running directory, otherwise are inaccessible by the program. This was yet another facet of programming that, despite extensive research and attempts to circumvent, I was not able to relocate. If these provided files are not placed under Tomcat's running directory, the database files will be automatically created, but will be empty- and as such you will be unable to log in to access program functionalities.
 
 This is the best I can do. Its not good enough, its not up to class or industry standards, but I have nothing else left to try. I am not smart or skilled enough.
+
+To try is not enough, is it?
