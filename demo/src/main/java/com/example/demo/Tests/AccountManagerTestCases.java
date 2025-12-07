@@ -143,7 +143,7 @@ public class AccountManagerTestCases {
     public void evaluateDBAddErrors() {
         AccountManager accmgr = new AccountManager();
 
-        String[] data = {"bobnt", "", "Bobby", "3"};
+        String[] data = {"bobnt", "bobntpass", "Bobby", "3"};
         String error = accmgr.addAccount(data);
         String expected_msg = ("Account username '" + data[0] + "' already exists.");
 

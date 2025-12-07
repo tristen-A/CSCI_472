@@ -38,6 +38,7 @@ public abstract class DatabaseHandler {
 
     public static void csvWriter(String targetfile, HashMap<Integer, String[]> targetDB) {
         String filepath = CURRENT_DIRECTORY + "\\" + targetfile + ".csv";
+        System.out.println(filepath);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
             for (int item_num : targetDB.keySet()) {

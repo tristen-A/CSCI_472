@@ -137,112 +137,182 @@ public class TableManagerTestCases {
         assertEquals(data[2], tbl.getLocation());
         assertEquals(Boolean.parseBoolean(data[3]), tbl.checkReservation());
     }
-    /*@Test
+    @Test
     public void evaluateDBAddErrors() {
         TableManager tblmgr = new TableManager();
 
-        String[] data = {"4", "100", "Gallery C", "false"};
+        String[] data = {"", "", "", ""};
         String error = tblmgr.addTable(3, data);
-        String expected_msg = ("Account username '" + data[0] + "' already exists.");
+        String expected_msg = ("Cannot add a table with incomplete fields!");
 
         assertEquals(expected_msg, error);
 
-        data = new String[] {"bobnt_new", "billybobjones", "Bobby", "3"};
-        error = accmgr.addAccount(data);
-        expected_msg = ("Account password '" + data[1] + "' is already in use.");
+        data = new String[] {"0", "100", "Gallery C", "false"};
+        error = tblmgr.addTable(3, data);
+        expected_msg = ("Given table #" + 3 + " already exists.");
+
+        assertEquals(expected_msg, error);
+
+        data = new String[] {"0", "100", "Gallery C", "false"};
+        error = tblmgr.addTable(0, data);
+        expected_msg = ("Table number must be above 0 and below 1000.");
+
+        assertEquals(expected_msg, error);
+
+        data = new String[] {"0", "100", "Gallery C", "false"};
+        error = tblmgr.addTable(1001, data);
+        expected_msg = ("Table number must be above 0 and below 1000.");
+
+        assertEquals(expected_msg, error);
+
+        data = new String[] {"0", "100", "Gallery C", "false"};
+        error = tblmgr.addTable(10, data);
+        expected_msg = ("Table capacity must be greater than 0.");
 
         assertEquals(expected_msg, error);
     }
 
     @Test
-    public void evaluateDBEditUsername() {
-        AccountManager accmgr = new AccountManager();
+    public void evaluateDBEditCap() {
+        TableManager tblmgr = new TableManager();
 
-        String[] data = {"Username", "New_Password", "", ""};
-        //accmgr.addAccount(data);
-        HashMap<String, Account>  TEST_DB = accmgr.getAccounts();
-        for (Account acc : TEST_DB.values()) {
-            System.out.println(acc.getUsername());
-            System.out.println(acc.getPassword());
-            System.out.println(acc.getName());
-            System.out.println(acc.getAuth());
-        }
+        int tbl_num = 4;
+        String[] data = {"4", "100", "Gallery C", "false"};
+        tblmgr.addTable(tbl_num, data);
 
-        Account prev_acc =  accmgr.getAccount(data[0]);
-        accmgr.editAccount(data[0], data);
-        Account new_acc = accmgr.getAccount(data[0]);
+        data = new String[] {"8", "", "", ""};
+        HashMap<Integer, Table> tables =  tblmgr.getTables();
+        Table prev_tbl =  tables.get(tbl_num);
+        tblmgr.editTable(tbl_num, data);
+        Table new_tbl = tables.get(tbl_num);
 
-        System.out.println(prev_acc == null);
-        System.out.println(new_acc == null);
-
-        assertEquals(prev_acc.getUsername(), new_acc.getUsername());
-        assertEquals(data[1], new_acc.getPassword());
-        assertEquals(prev_acc.getName(), new_acc.getName());
-        assertEquals(prev_acc.getAuth(), new_acc.getAuth());
-
-        //accmgr.updateDB();
+        assertEquals(Integer.parseInt(data[0]), new_tbl.getCap());
+        assertEquals(prev_tbl.getPrice(), new_tbl.getPrice());
+        assertEquals(prev_tbl.getLocation(), new_tbl.getLocation());
+        assertEquals(prev_tbl.checkReservation(), new_tbl.checkReservation());
     }
     @Test
-    public void evaluateDBEditName() {
-        AccountManager accmgr = new AccountManager();
+    public void evaluateDBEditPrice() {
+        TableManager tblmgr = new TableManager();
 
-        String[] data = {"Username", "", "New_Name", ""};
+        int tbl_num = 5;
+        String[] data = {"4", "100", "Gallery C", "false"};
+        tblmgr.addTable(tbl_num, data);
 
-        Account prev_acc =  accmgr.getAccount(data[0]);
-        accmgr.editAccount(data[0], data);
-        Account new_acc = accmgr.getAccount(data[0]);
+        data = new String[] {"", "200", "", ""};
+        HashMap<Integer, Table> tables =  tblmgr.getTables();
+        Table prev_tbl =  tables.get(tbl_num);
+        tblmgr.editTable(tbl_num, data);
+        Table new_tbl = tables.get(tbl_num);
 
-        assertEquals(prev_acc.getUsername(), new_acc.getUsername());
-        assertEquals(prev_acc.getPassword(), new_acc.getPassword());
-        assertEquals(data[2], new_acc.getName());
-        assertEquals(prev_acc.getAuth(), new_acc.getAuth());
+        assertEquals(prev_tbl.getCap(), new_tbl.getCap());
+        assertEquals(Integer.parseInt(data[1]), new_tbl.getPrice());
+        assertEquals(prev_tbl.getLocation(), new_tbl.getLocation());
+        assertEquals(prev_tbl.checkReservation(), new_tbl.checkReservation());
     }
     @Test
-    public void evaluateDBEditAuth() {
-        AccountManager accmgr = new AccountManager();
+    public void evaluateDBEditLocation() {
+        TableManager tblmgr = new TableManager();
 
-        String[] data = {"Username", "", "", "0"};
+        int tbl_num = 6;
+        String[] data = {"4", "100", "Gallery C", "false"};
+        tblmgr.addTable(tbl_num, data);
 
-        Account prev_acc =  accmgr.getAccount(data[0]);
-        accmgr.editAccount(data[0], data);
-        Account new_acc = accmgr.getAccount(data[0]);
+        data = new String[] {"", "", "Gallery Boggle", ""};
+        HashMap<Integer, Table> tables =  tblmgr.getTables();
+        Table prev_tbl =  tables.get(tbl_num);
+        tblmgr.editTable(tbl_num, data);
+        Table new_tbl = tables.get(tbl_num);
 
-        assertEquals(prev_acc.getUsername(), new_acc.getUsername());
-        assertEquals(prev_acc.getPassword(), new_acc.getPassword());
-        assertEquals(prev_acc.getName(), new_acc.getName());
-        assertEquals(Integer.parseInt(data[3]), new_acc.getAuth());
+        assertEquals(prev_tbl.getCap(), new_tbl.getCap());
+        assertEquals(prev_tbl.getPrice(), new_tbl.getPrice());
+        assertEquals(data[2], new_tbl.getLocation());
+        assertEquals(prev_tbl.checkReservation(), new_tbl.checkReservation());
+    }
+    @Test
+    public void evaluateDBEditReserved() {
+        TableManager tblmgr = new TableManager();
+
+        int tbl_num = 7;
+        String[] data = {"4", "100", "Gallery C", "false"};
+        tblmgr.addTable(tbl_num, data);
+
+        data = new String[] {"", "", "Gallery Boggle", ""};
+        HashMap<Integer, Table> tables =  tblmgr.getTables();
+        Table prev_tbl =  tables.get(tbl_num);
+        tblmgr.editTable(tbl_num, data);
+        Table new_tbl = tables.get(tbl_num);
+
+        assertEquals(prev_tbl.getCap(), new_tbl.getCap());
+        assertEquals(prev_tbl.getPrice(), new_tbl.getPrice());
+        assertEquals(prev_tbl.getLocation(), new_tbl.getLocation());
+        assertEquals(Boolean.parseBoolean(data[3]), new_tbl.checkReservation());
+    }
+
+    @Test
+    public void evaluateDBEditErrors() {
+        TableManager tblmgr = new TableManager();
+
+        String[] data = {"4", "100", "Gallery C", "false"};
+        int tbl_num = 811;
+
+        String error_msg = tblmgr.editTable(tbl_num, data);
+        assertEquals(error_msg, "Given table #" + tbl_num + " does not exist.");
+
+        tbl_num = 8;
+        tblmgr.addTable(tbl_num, data);
+        data = new String[] {"0", "100", "Gallery C", "false"};
+
+        error_msg = tblmgr.editTable(tbl_num, data);
+        assertEquals(error_msg, "Table capacity must be greater than 0.");
     }
 
     @Test
     public void evaluateDBDelete() {
-        AccountManager accmgr = new AccountManager();
+        TableManager tblmgr = new TableManager();
 
-        String user = "bobnt";
-        accmgr.deleteAccount(user);
+        String[] data = {"4", "100", "Gallery C", "false"};
+        int tbl = 4;
+        tblmgr.addTable(tbl, data);
+        tblmgr.deleteTable(tbl);
 
-        assertEquals(null, accmgr.getAccount(user));
+        assertEquals(null, tblmgr.getTables().get(tbl));
     }
     @Test
     public void evaluateDBDeleteErrors() {
-        AccountManager accmgr = new AccountManager();
+        TableManager tblmgr = new TableManager();
 
-        String usern = "Nonexisting_Username";
-        String error = accmgr.deleteAccount(usern);
-        String expected_msg = ("No account found under username '" + usern + "'.");
+        int tbl = 10;
+        String error = tblmgr.deleteTable(tbl);
+        String expected_msg = ("Given table #" + tbl + " does not exist.");
 
         assertEquals(expected_msg, error);
     }
 
     @Test
-    public void evaluateLogin() {
-        AccountManager accmgr = new AccountManager();
+    public void evaluateCheckReserved() {
+        TableManager tblmgr = new TableManager();
 
-        boolean valid_login = accmgr.validateLogin("Username", "Password");
-        boolean invalid_login = accmgr.validateLogin("Username", "Not_Password");
+        String[] data = {"4", "100", "Gallery C", "true"};
+        int tbl = 11;
+        tblmgr.addTable(tbl, data);
 
-        assertEquals(true, valid_login);
-        assertEquals(false, invalid_login);
-    }*/
+        boolean reserved = tblmgr.checkReserved(tbl);
+        assertEquals(true, reserved);
+    }
+
+    @Test
+    public void evaluateUpdateReserved() {
+        TableManager tblmgr = new TableManager();
+
+        String[] data = {"4", "100", "Gallery C", "true"};
+        int tbl = 12;
+        tblmgr.addTable(tbl, data);
+
+        tblmgr.updateReserved(tbl, false);
+        boolean reserved = tblmgr.checkReserved(tbl);
+        assertEquals(false, reserved);
+    }
 
     @AfterClass
     public static void cleanDBFiles() {

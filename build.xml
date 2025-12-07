@@ -103,7 +103,7 @@
                     <fileset dir="build"/>
                 </classfiles>
                 <sourcefiles encoding="UTF-8">
-                    <fileset dir="src"/>
+                    <fileset dir="demo/src/main/java/com/example/demo"/>
                 </sourcefiles>
             </structure>
 

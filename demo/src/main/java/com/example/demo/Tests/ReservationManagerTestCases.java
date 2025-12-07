@@ -11,11 +11,17 @@ import org.junit.Test;
 import org.junit.AfterClass;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
 public class ReservationManagerTestCases {
+
+    private static final SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final Date cur_date = new Date();
+    private static final String cur_day = sdfDate.format(cur_date).split(" ")[0];
 
     public HashMap<Integer, Reservation> createObjectDB() {
         HashMap<Integer, Reservation> objectDB = new HashMap<>();
@@ -174,9 +180,6 @@ public class ReservationManagerTestCases {
 
         assertEquals(expected_msg, error);
 
-        //AccountManager accmgr = new AccountManager();
-        //accmgr.addAccount(new String[] {"Valid_Username", "Valid_Password", "Valid_Name", "4"});
-
         data = new String[] {"Valid_Username", "6", "2026-01-10", "14:00", "8"};
         error = resmgr.addReservation(data);
         expected_msg = ("Given table #" + Integer.parseInt(data[1]) + " does not exist.");
@@ -191,7 +194,7 @@ public class ReservationManagerTestCases {
 
         data = new String[] {"Valid_Username", "3", "2023-01-10", "14:00", "8"};
         error = resmgr.addReservation(data);
-        expected_msg = ("Cannot select a date or time before current date/time.");
+        expected_msg = ("Cannot select a date or time before current date/time, or within the next hour.");
 
         assertEquals(expected_msg, error);
 
@@ -201,38 +204,137 @@ public class ReservationManagerTestCases {
         tblmgr.deleteTable(3);
     }
 
-    /*@Test
-    public void evaluateDBEditUsername() {
-        AccountManager accmgr = new AccountManager();
-        String[] data1 = {"Res_Account_A", "Res_Account_PassA", "Res_Account_PersonA", "10"};
-        accmgr.addAccount(data1);
-        String[] data2 = {"Res_Account_B", "Res_Account_PassB", "Res_Account_PersonB", "10"};
-        accmgr.addAccount(data2);
-
+    @Test
+    public void evaluateDBEditTableNum() {
+        //AccountManager accmgr = new AccountManager();
+        //accmgr.addAccount(new String[] {"Res_Account_10", "Res_Account_PassA", "Res_Account_PersonA", "10"});
         TableManager tblmgr = new TableManager();
-        tblmgr.addTable(10, new String[] {"8", "200", "Gallery D", "false"});
-        ReservationManager resmgr = new ReservationManager(tblmgr);
-        resmgr.addReservation(new String[] {"Res_Account_A", "3", "2030-01-10", "14:00", "8"});
+        tblmgr.addTable(10, new String[] {"4", "100", "Gallery A", "false"});
+        tblmgr.addTable(11, new String[] {"4", "100", "Gallery A", "false"});
 
-        HashMap<Integer, Reservation> reservations =  resmgr.getAccReservations(data1[0]);
-        for (Reservation cur_res : reservations.values()) {
-            assertEquals(data[0], cur_res.getAccUsern());
+        ReservationManager resmgr = new ReservationManager(tblmgr);
+        String[] res_data = {"Res_Account_10", "10", "2030-01-10", "14:00", "8"};
+        resmgr.addReservation(res_data);
+
+        HashMap<Integer, Reservation> reservations =  resmgr.getAccReservations(res_data[0]);
+        int res_num = 0;
+        for (int num :  reservations.keySet()) {
+            res_num = num;
         }
 
-        Reservation prev_res =  resmgr.getReservation(data[0]);
-        accmgr.editAccount(data[0], data);
-        Reservation new_res = accmgr.getAccount(data[0]);
+        res_data = new String[] {"", "11", "", "", ""};
+        Reservation prev_res =  reservations.get(res_num);
+        resmgr.editReservation(res_num, res_data);
+        Reservation new_res = reservations.get(res_num);
 
-        /*System.out.println(prev_acc == null);
-        System.out.println(new_acc == null);
+        assertEquals(Integer.parseInt(res_data[1]), new_res.getTableNum());
+        assertEquals(prev_res.getDate(), new_res.getDate());
+        assertEquals(prev_res.getTime(), new_res.getTime());
+        assertEquals(prev_res.getPartySize(), new_res.getPartySize());
+    }
+    @Test
+    public void evaluateDBEditDate() {
+        ReservationManager resmgr = new ReservationManager(new  TableManager());
+        String[] res_data = {"Res_Account_11", "10", "2030-01-10", "14:00", "8"};
+        resmgr.addReservation(res_data);
 
-        assertEquals(prev_acc.getUsername(), new_acc.getUsername());
-        assertEquals(data[1], new_acc.getPassword());
-        assertEquals(prev_acc.getName(), new_acc.getName());
-        assertEquals(prev_acc.getAuth(), new_acc.getAuth());
+        HashMap<Integer, Reservation> reservations =  resmgr.getAccReservations(res_data[0]);
+        int res_num = 0;
+        for (int num :  reservations.keySet()) {
+            res_num = num;
+        }
 
-        //accmgr.updateDB();
-    }*/
+        res_data = new String[] {"", "", "2030-02-01", "", ""};
+        Reservation prev_res =  reservations.get(res_num);
+        resmgr.editReservation(res_num, res_data);
+        Reservation new_res = reservations.get(res_num);
+
+        assertEquals(prev_res.getTableNum(), new_res.getTableNum());
+        assertEquals(res_data[2], new_res.getDate());
+        assertEquals(prev_res.getTime(), new_res.getTime());
+        assertEquals(prev_res.getPartySize(), new_res.getPartySize());
+    }
+    @Test
+    public void evaluateDBEditTime() {
+        ReservationManager resmgr = new ReservationManager(new  TableManager());
+        String[] res_data = {"Res_Account_12", "10", "2030-01-10", "14:00", "8"};
+        resmgr.addReservation(res_data);
+
+        HashMap<Integer, Reservation> reservations =  resmgr.getAccReservations(res_data[0]);
+        int res_num = 0;
+        for (int num :  reservations.keySet()) {
+            res_num = num;
+        }
+
+        res_data = new String[] {"", "", "", "15:00", ""};
+        Reservation prev_res =  reservations.get(res_num);
+        resmgr.editReservation(res_num, res_data);
+        Reservation new_res = reservations.get(res_num);
+
+        assertEquals(prev_res.getTableNum(), new_res.getTableNum());
+        assertEquals(prev_res.getDate(), new_res.getDate());
+        assertEquals(res_data[3], new_res.getTime());
+        assertEquals(prev_res.getPartySize(), new_res.getPartySize());
+    }
+    @Test
+    public void evaluateDBEditPartySize() {
+        TableManager tblmgr = new TableManager();
+        tblmgr.addTable(12, new String[] {"8", "100", "Gallery A", "false"});
+
+        ReservationManager resmgr = new ReservationManager(tblmgr);
+        String[] res_data = {"Res_Account_13", "12", "2030-01-10", "14:00", "2"};
+        resmgr.addReservation(res_data);
+
+        HashMap<Integer, Reservation> reservations =  resmgr.getAccReservations(res_data[0]);
+        int res_num = 0;
+        for (int num :  reservations.keySet()) {
+            res_num = num;
+        }
+
+        res_data = new String[] {"", "", "", "", "6"};
+        Reservation prev_res =  reservations.get(res_num);
+        resmgr.editReservation(res_num, res_data);
+        Reservation new_res = reservations.get(res_num);
+
+        assertEquals(prev_res.getTableNum(), new_res.getTableNum());
+        assertEquals(prev_res.getDate(), new_res.getDate());
+        assertEquals(prev_res.getTime(), new_res.getTime());
+        assertEquals(Integer.parseInt(res_data[4]), new_res.getPartySize());
+    }
+    @Test
+    public void evaluateDBEditErrors() {
+        TableManager tblmgr = new TableManager();
+        ReservationManager resmgr = new ReservationManager(tblmgr);
+
+        String[] res_data = {"Res_Account_14", "12", "2030-01-10", "14:00", "2"};
+        String error = resmgr.editReservation(811, res_data);
+        String expected_msg = ("Given reservation #" + 811 + " does not exist.");
+        assertEquals(expected_msg, error);
+
+        resmgr.addReservation(res_data);
+        HashMap<Integer, Reservation> reservations =  resmgr.getAccReservations(res_data[0]);
+        int res_num = 0;
+        for (int num :  reservations.keySet()) {
+            res_num = num;
+        }
+
+        res_data = new String[] {"", "811", "", "", ""};
+        error = resmgr.editReservation(res_num, res_data);
+        expected_msg = ("Given table #" + res_data[1] + " does not exist.");
+        assertEquals(expected_msg, error);
+
+        tblmgr.addTable(811, new String[] {"8", "100", "Gallery A", "true"});
+
+        res_data = new String[] {"", "811", "", "", ""};
+        error = resmgr.editReservation(res_num, res_data);
+        expected_msg = ("Given table #" + res_data[1] + " is already reserved.");
+        assertEquals(expected_msg, error);
+
+        res_data = new String[] {"", "", "2010-01-10", "14:00", ""};
+        error = resmgr.editReservation(res_num, res_data);
+        expected_msg = ("Cannot select a date or time before current date/time, or within the next hour.");
+        assertEquals(expected_msg, error);
+    }
 
     @Test
     public void evaluateDBDelete() {
@@ -254,7 +356,7 @@ public class ReservationManagerTestCases {
 
         int res_num = 640064;
         String error = resmgr.deleteReservation(res_num);
-        String expected_msg = ("Given reservtaion #" + res_num + " does not exist.");
+        String expected_msg = ("Given reservation #" + res_num + " does not exist.");
 
         assertEquals(expected_msg, error);
     }

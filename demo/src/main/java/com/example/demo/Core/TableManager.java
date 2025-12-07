@@ -70,7 +70,12 @@ public class TableManager extends DatabaseHandler {
         }
 
         Table cur_tb = TablesDB.get(tbl_num);
-        if (!data[0].isEmpty()) { cur_tb.setCap(Integer.parseInt(data[0])); }
+        if (!data[0].isEmpty()) {
+            if (Integer.parseInt(data[0]) <= 0) {
+                return ("Table capacity must be greater than 0.");
+            }
+            cur_tb.setCap(Integer.parseInt(data[0]));
+        }
         if (!data[1].isEmpty()) { cur_tb.setPrice(Integer.parseInt(data[1])); }
         if (!data[2].isEmpty()) { cur_tb.setLocation(data[2]); }
         if (!data[3].isEmpty()) { cur_tb.setReservation(Boolean.parseBoolean(data[3])); }
