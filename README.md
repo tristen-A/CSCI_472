@@ -1,6 +1,5 @@
 Though it is self explanatory, ensure that the $CATALINA_HOME and $ANT_HOME environment variables are set.
 
-This Ant script provided is incomplete.
 Ant script tasks are as follows;
 
 --- 'ant clean': Cleans the "build" directory of the project.  
