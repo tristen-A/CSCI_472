@@ -1,4 +1,4 @@
-# Project Title
+# CSCI 472 - Resturaunt Reservation System
 
 This project is a simple web application designed as a table reservation system for an imaginary, unnamed restaurant.
 
