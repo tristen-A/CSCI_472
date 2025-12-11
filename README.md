@@ -28,7 +28,7 @@ IntelliJ IDEA
 ### Executing program
 
 * Deploy the project locally in IntellIJ
-* Open browser and go to url: 'https://localhost:8080/demo'
+* Open browser and go to url: https://localhost:8080/demo
 
 Ant 'build.xml' tasks are as follows;
 ```
@@ -36,6 +36,10 @@ ant clean : Cleans the "build" directory of the project.
 ant compile': Compiles Java source files under demo/Core, demo/Database, and demo/Tests.
 ant test : Runs JUnit test cases built under build/Tests. Creates Jacoco coverage documentation under build.
 ant report : Compiles coverage documentation into a browser-viewable .html file under build/site/jacoco.
+```
+JaCoCo code coverage report can be accessed with the command;
+```
+start build/site/jacoco/index.html
 ```
 
 The following commands are remnants from attempts to deploy the project via Ant. However, while the project's HTML content is successfully deployed to Tomcat, all Java backend code fails.
