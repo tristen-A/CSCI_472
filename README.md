@@ -12,9 +12,9 @@ It is implemented by JSP & Java servlet technology, designed with the Model-View
 
 ### Dependencies
 
-Apache Ant ver. 1.10.+
-Apache Tomcat ver. 10.0.+
-Both $CATALINA_HOME / $ANT_HOME environment variables set
+Apache Ant ver. 1.10.+  
+Apache Tomcat ver. 10.0.+  
+Both $CATALINA_HOME / $ANT_HOME environment variables set  
 
 IntelliJ IDEA
 
@@ -43,8 +43,8 @@ If you still wish to run these commands, they are as follows;
 ```
 ant start : Wait for it to complete (a CMD window should appear; Tomcat starting)
 ant deploy : Will deploy the project to Tomcat
-Open browser and navigate to url: https://localhost:8080/demo
 ```
+- Open browser and navigate to url: https://localhost:8080/demo
 
 ## Authors
 
