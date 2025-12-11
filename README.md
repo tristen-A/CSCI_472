@@ -1,26 +1,60 @@
-Though it is self explanatory, ensure that the $CATALINA_HOME and $ANT_HOME environment variables are set.
+# Project Title
 
-Ant script tasks are as follows;
+This project is a simple web application designed as a table reservation system for an imaginary, unnamed restaurant.
 
---- 'ant clean': Cleans the "build" directory of the project.  
---- 'ant compile': Compiles Java source files under demo/Core, demo/Database, and demo/Tests.  
---- 'ant test': Runs JUnit test cases built under build/Tests. Creates Jacoco coverage documentation under build.  
---- 'ant report': Compiles coverage documentation into a browser-viewable .html file under build/site/jacoco.  
+## Description
 
-This project is originally built in IntellIJ. IntellIJ project structure has been maintained for ease of development, but should not interfere with Ant automation.
-However, despite extensive attempts and research to try and automate Tomcat deployment with Ant, I was not successful in implementing this function.
-Currently, the task 'ant deploy' has- as of twenty minutes to the deadline- gotten the application to deploy its HTML content. However, its Java classes- servlets and otherwise- fail to run. This can be achieved as such;
-- Run 'ant start', and wait for it to complete (a CMD window should appear; Tomcat starting)
-- Run 'ant deploy'
-- Open browser and go to url: 'https://localhost:8080/demo'
+The application is hosted locally to emulate online availability, and has features for login accounts, admin table / reservation / account management, and reservation creation for any signed-in account. The application features CRUD functionality and data constraints, restricting reservation dates and times, account login information, table enumeration, etc.
 
-I really did try, but this is as far as I could get without help.
+It is implemented by JSP & Java servlet technology, designed with the Model-View-Controller architecture, and deployed locally with Apache Tomcat. Build automation is handled by Apache Ant, and project is initially built in IntellIJ IDEA. Information is stored locally- persistently- on the host machine, written directly to .csv files, thus having no reliance on database technologies.
 
-Given this, to properly run the project;
+## Getting Started
 
-- Open the 'demo' directory as a project in IntellIJ,
-- Ensure a tomcat plugin is installed (SmartTomcat),
-- Deploy the project locally in IntellIJ
-- Provided 'db' files (dbAccounts, tbTables) can be used as default information. These will have to be placed under Tomcat's running directory, otherwise are inaccessible by the program. This was yet another facet of programming that, despite extensive research and attempts to circumvent, I was not able to relocate. If these provided files are not placed under Tomcat's running directory, the database files will be automatically created, but will be empty- and as such you will be unable to log in to access program functionalities.
+### Dependencies
 
-This is the best I can do. Its not good enough, its not up to class or industry standards, but I have nothing else left to try.
+Apache Ant ver. 1.10.+
+Apache Tomcat ver. 10.0.+
+Both $CATALINA_HOME / $ANT_HOME environment variables set
+
+IntelliJ IDEA
+
+### Installing
+
+* 
+    Open the 'demo' directory as a project in IntellIJ,
+    Ensure a Tomcat plugin is installed (SmartTomcat),
+    Provided 'db' files (dbAccounts, tbTables) can be used as default information. These will have to be placed under Tomcat's running directory, otherwise are inaccessible by the program.
+
+### Executing program
+
+* Deploy the project locally in IntellIJ
+* Open browser and go to url: 'https://localhost:8080/demo'
+
+Ant 'build.xml' tasks are as follows;
+```
+ant clean : Cleans the "build" directory of the project.
+ant compile': Compiles Java source files under demo/Core, demo/Database, and demo/Tests.
+ant test : Runs JUnit test cases built under build/Tests. Creates Jacoco coverage documentation under build.
+ant report : Compiles coverage documentation into a browser-viewable .html file under build/site/jacoco.
+```
+
+The following commands are remnants from attempts to deploy the project via Ant. However, while the project's HTML content is successfully deployed to Tomcat, all Java backend code fails.
+If you still wish to run these commands, they are as follows;
+```
+ant start : Wait for it to complete (a CMD window should appear; Tomcat starting)
+ant deploy : Will deploy the project to Tomcat
+Open browser and navigate to url: https://localhost:8080/demo
+```
+
+## Authors
+
+Tristen Achterberg
+[@tristen-A](https://github.com/tristen-A)
+
+## Version History
+
+* 0.2
+    * Various bug fixes and optimizations
+    * See [commit change]() or See [release history]()
+* 0.1
+    * Initial Release
